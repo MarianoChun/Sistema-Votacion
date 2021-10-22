@@ -6,77 +6,57 @@ import java.util.*;
  */
 public class FranjaHoraria {
 
+    private int franja;
+    private LinkedList<Votante> votantes;
+    private int turnosRestantes;
+    
     /**
      * Default constructor
      */
-    public FranjaHoraria() {
+    public FranjaHoraria(int franja, int turnosRestantes) {
+    	if(franja < 8 || franja > 18) {
+    		throw new RuntimeException("La franja ingresada es invalida");
+    	}
+    	this.franja = franja;
+    	this.turnosRestantes = turnosRestantes;
+    	this.votantes = new LinkedList<Votante>();
     }
 
-    /**
-     * 
-     */
-    private int franja;
 
-    /**
-     * 
-     */
-    private LinkedList<Votante> votantes;
-
-    /**
-     * 
-     */
-    private int turnosRestantes;
-
-
-
-
-
-
-    /**
-     * @return
-     */
     public int consultarTurnosRestantes() {
         // TODO implement here
-        return 0;
+        return turnosRestantes;
     }
 
-    /**
-     * @return
-     */
     public LinkedList<Votante> mostrarVotantes() {
         // TODO implement here
-        return null;
+        return votantes;
     }
 
-    /**
-     * @return
-     */
+
     public int consultarFranja() {
         // TODO implement here
-        return 0;
+        return franja;
     }
 
-    /**
-     * @return
-     */
+
     private void restarTurno() {
         // TODO implement here
-        return;
+        turnosRestantes -= 1;
     }
 
-    /**
-     * @param Votante votante 
-     * @return
-     */
+
     public void agregarVotante(Votante votante) {
         // TODO implement here
-        return;
+        if(!votanteEstaEnFranja(votante.consultarDni())) {
+        	votantes.add(votante);
+        	restarTurno();
+        } else {
+        	throw new RuntimeException("Error: El votante ya esta agregado");
+        }
     }
 
-    /**
-     * @param int dni 
-     * @return
-     */
+
     public boolean votanteEstaEnFranja(int dni) {
         // TODO implement here
         return false;

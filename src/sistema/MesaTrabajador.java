@@ -5,27 +5,23 @@ import java.util.*;
  * 
  */
 public class MesaTrabajador extends MesaGenerica {
-
+    private FranjaHoraria franjaHoraria;
+    private int cupo;
+    private String tipoMesa;
     /**
      * Default constructor
      */
-    public MesaTrabajador() {
+    public MesaTrabajador(int numeroMesa, Votante presidenteMesa) {
+    	super(numeroMesa, presidenteMesa);
+    	this.cupo = 2147483647;
+    	this.tipoMesa = "Trabajador";
+    	this.franjasHorarias
     }
 
     /**
      * 
      */
-    private FranjaHoraria franjasHorarias;
 
-    /**
-     * 
-     */
-    private int cupo;
-
-    /**
-     * 
-     */
-    private String tipoMesa;
 
     /**
      * @param int franja 

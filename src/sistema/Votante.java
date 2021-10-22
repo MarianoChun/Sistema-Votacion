@@ -50,7 +50,9 @@ public class Votante {
 	}
 	
 	public void votar() {
-		
+		if(fueAVotar == false) {
+			fueAVotar = true;
+		}
 	}
 	
 	public Turno consultarTurno() {
