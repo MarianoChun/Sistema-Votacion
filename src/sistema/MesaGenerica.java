@@ -84,7 +84,7 @@ public abstract class MesaGenerica {
 
     public int consultarCupo() {
         // TODO implement here
-        return 0;
+        return cupo;
     }
 
 

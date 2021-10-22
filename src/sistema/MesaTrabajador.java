@@ -6,16 +6,16 @@ import java.util.*;
  */
 public class MesaTrabajador extends MesaGenerica {
     private FranjaHoraria franjaHoraria;
-    private int cupo;
+    private int cupo = 2147483647;
     private String tipoMesa;
     /**
      * Default constructor
      */
     public MesaTrabajador(int numeroMesa, Votante presidenteMesa) {
     	super(numeroMesa, presidenteMesa);
-    	this.cupo = 2147483647;
+    	//this.cupo = 2147483647;
     	this.tipoMesa = "Trabajador";
-    	this.franjasHorarias
+    	this.franjaHoraria = new FranjaHoraria(8,cupo);
     }
 
     /**
@@ -27,6 +27,7 @@ public class MesaTrabajador extends MesaGenerica {
      * @param int franja 
      * @return
      */
+    
     public int turnosRestantesFranjaHoraria(int franja) {
         // TODO implement here
         return 0;
@@ -59,6 +60,11 @@ public class MesaTrabajador extends MesaGenerica {
     public int consultarTurnosTotalesFranjas() {
         // TODO implement here
         return 0;
+    }
+    @Override
+    public int consultarCupo() {
+        // TODO implement here
+        return cupo;
     }
 
 }

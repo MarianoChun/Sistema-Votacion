@@ -72,7 +72,10 @@ public class Sistema {
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		Votante v = new Votante(1,"h",18,true,true);
+		MesaGenerica m = new MesaTrabajador(2,v);
+		System.out.println(m.consultarCupo());
+		
 	}
 
 }
