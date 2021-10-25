@@ -76,6 +76,12 @@ public class Sistema {
 		MesaGenerica m = new MesaTrabajador(2,v);
 		System.out.println(m.consultarCupo());
 		
+		System.out.println(m.consultarTipoMesa());
+		
+		Votante v1 = new Votante(1,"h",18,true,true);
+		MesaGenerica mGeneral = new MesaGeneral(1,v1);
+		System.out.println(mGeneral.mostrarFranjasHorarias());
+		
 	}
 
 }

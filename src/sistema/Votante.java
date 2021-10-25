@@ -33,6 +33,10 @@ public class Votante {
 		return dni;
 	}
 	
+	public String consultarNombre() {
+		return nombre;
+	}
+	
 	public boolean consultarEsTrabajador() {
 		return esTrabajador;
 	}

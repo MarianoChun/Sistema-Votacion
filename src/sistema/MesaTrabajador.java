@@ -5,7 +5,8 @@ import java.util.*;
  * 
  */
 public class MesaTrabajador extends MesaGenerica {
-	private ArrayList<FranjaHoraria> franjasHorarias;
+	
+
     private FranjaHoraria franjaHoraria;
     private int cupo = 2147483647;
     private String tipoMesa;
@@ -15,66 +16,80 @@ public class MesaTrabajador extends MesaGenerica {
     public MesaTrabajador(int numeroMesa, Votante presidenteMesa) {
     	super(numeroMesa, presidenteMesa);
     	//this.cupo = 2147483647;
+
+    	//this.franjasHorarias = new ArrayList<FranjaHoraria>();
     	this.tipoMesa = "Trabajador";
     	this.franjaHoraria = new FranjaHoraria(8,cupo);
+    	//this.franjaHoraria = 
     }
 
-    /**
-     * 
-     */
-
-
-    /**
-     * @param int franja 
-     * @return
-     */
-    
+    @Override
     public int turnosRestantesFranjaHoraria(int franja) {
         // TODO implement here
-        return 0;
+    	
+    	if(franja < 8 || franja > 11) {
+    		throw new RuntimeException("Franja invalida");
+    	}
+    	
+        return franjaHoraria.consultarTurnosRestantes();
     }
-
-    /**
-     * @param int franja 
-     * @return
-     */
     
-    
+    @Override
     public LinkedList<Votante> votantesFranjaHoraria(int franja) {
         // TODO implement here
-        return new LinkedList<Votante>();
+    	
+    	if(franja < 8 || franja > 11) {
+    		throw new RuntimeException("Franja invalida");
+    	}
+    	
+        return franjaHoraria.mostrarVotantes();
     }
-
-    /**
-     * @param int franja 
-     * @param Votante votante 
-     * @return
-     */
-    public void AsignarVotanteAFranjaHoraria(int franja, Votante votante) {
+    
+    @Override
+    public void asignarVotanteAFranjaHoraria(int franja, Votante votante) {
         // TODO implement here
-        return;
+    	
+    	if(franja < 8 || franja > 11) {
+    		throw new RuntimeException("Franja invalida");
+    	}
+    	
+    	if(franjaHoraria.votanteEstaEnFranja(votante.consultarDni())) {
+    		throw new RuntimeException("El votante ya se encuentra en la franja");
+    	}
+    	franjaHoraria.agregarVotante(votante);
     }
-
-    /**
-     * @return
-     */
+    
+    @Override
     public int consultarTurnosTotalesFranjas() {
         // TODO implement here
-        return 0;
+        return franjaHoraria.consultarTurnosRestantes();
     }
+    
     @Override
     public int consultarCupo() {
         // TODO implement here
         return cupo;
     }
     
+    @Override
     public ArrayList<FranjaHoraria> mostrarFranjasHorarias(){
-		return franjasHorarias;
+    	ArrayList<FranjaHoraria> franja = new ArrayList<FranjaHoraria>();
+    	franja.add(franjaHoraria);
+		return franja;
     	
     }
-    
+    @Override
     public FranjaHoraria mostrarFranjaHoraria(int franja){
-		 return mostrarFranjaHoraria(0);
+    	if(franja < 8 || franja > 11) {
+    		throw new RuntimeException("Franja invalida");
+    	} 
+		 return franjaHoraria;
     }
+
+	@Override
+	public String consultarTipoMesa() {
+		// TODO Auto-generated method stub
+		return tipoMesa;
+	}
 
 }

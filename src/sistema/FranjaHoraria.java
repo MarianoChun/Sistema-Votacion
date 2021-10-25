@@ -23,7 +23,17 @@ public class FranjaHoraria {
     }
 
 
-    public int consultarTurnosRestantes() {
+    @Override
+	public String toString() {
+    	StringBuilder cadena = new StringBuilder();
+    	cadena.append("Franja: ");
+    	cadena.append(franja);
+
+		return cadena.toString();
+	}
+
+
+	public int consultarTurnosRestantes() {
         // TODO implement here
         return turnosRestantes;
     }

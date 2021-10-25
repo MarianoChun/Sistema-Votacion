@@ -20,36 +20,31 @@ public abstract class MesaGenerica {
     public MesaGenerica(int numeroMesa, Votante presidenteMesa) {
     	this.numeroMesa = numeroMesa;
     	this.presidenteMesa = presidenteMesa;
-   
+    	this.franjasHorarias = new ArrayList<FranjaHoraria>();
+
     }
 
 
-    public ArrayList<FranjaHoraria> mostrarFranjasHorarias() {
-        // TODO implement here
-        return null;
-    }
+    public abstract ArrayList<FranjaHoraria> mostrarFranjasHorarias();
 
-    public FranjaHoraria mostrarFranjaHoraria(int franja) {
-        // TODO implement here
-        return null;
-    }
+    public abstract FranjaHoraria mostrarFranjaHoraria(int franja);
 
 
     public int mostrarNumeroMesa() {
         // TODO implement here
-        return 0;
+        return numeroMesa;
     }
 
 
     public int mostrarDniPresidenteMesa() {
         // TODO implement here
-        return 0;
+        return presidenteMesa.consultarDni();
     }
 
 
     public String mostrarNombrePresidenteMesa() {
         // TODO implement here
-        return "";
+        return presidenteMesa.consultarNombre();
     }
 
 
@@ -76,16 +71,10 @@ public abstract class MesaGenerica {
         return 0;
     }
 
-    public String consultarTipoMesa() {
-        // TODO implement here
-        return "";
-    }
+    public abstract String consultarTipoMesa();
 
 
-    public int consultarCupo() {
-        // TODO implement here
-        return cupo;
-    }
+    public abstract int consultarCupo();
 
 
     public FranjaHoraria franjaConDisponibilidad() {
