@@ -5,22 +5,27 @@ import java.util.*;
  * 
  */
 public class MesaEnfPreex extends MesaGenerica {
-
+	
+    private ArrayList<FranjaHoraria> franjasHorarias;
+    private int cupo;
+    private String tipoMesa;
     /**
      * Default constructor
      */
-    public MesaEnfPreex() {
+    public MesaEnfPreex(int numeroMesa, Votante presidenteMesa) {
+    	super(numeroMesa, presidenteMesa);
+    	
     }
 
     /**
      * 
      */
-    private int cupo;
+  
 
     /**
      * 
      */
-    private String tipoMesa;
+    
 
     /**
      * @param int franja 
@@ -31,5 +36,27 @@ public class MesaEnfPreex extends MesaGenerica {
         // TODO implement here
         return;
     }
+    
+    
+    public ArrayList<FranjaHoraria> mostrarFranjasHorarias(){
+		return franjasHorarias;
+    	
+    }
+    
+    public FranjaHoraria mostrarFranjaHoraria(int franja){
+		 return mostrarFranjaHoraria(0);
+    }
+    
+    public int turnosRestantesFranjaHoraria(int franja) {
+    	for(franjasHorarias: ffranjasHorarias) {
+    		
+    	}
+    }
+    
+    
+    
+    
+    
+    
 
 }

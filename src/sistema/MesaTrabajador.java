@@ -5,6 +5,7 @@ import java.util.*;
  * 
  */
 public class MesaTrabajador extends MesaGenerica {
+	private ArrayList<FranjaHoraria> franjasHorarias;
     private FranjaHoraria franjaHoraria;
     private int cupo = 2147483647;
     private String tipoMesa;
@@ -65,6 +66,15 @@ public class MesaTrabajador extends MesaGenerica {
     public int consultarCupo() {
         // TODO implement here
         return cupo;
+    }
+    
+    public ArrayList<FranjaHoraria> mostrarFranjasHorarias(){
+		return franjasHorarias;
+    	
+    }
+    
+    public FranjaHoraria mostrarFranjaHoraria(int franja){
+		 return mostrarFranjaHoraria(0);
     }
 
 }
