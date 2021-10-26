@@ -21,23 +21,56 @@ public class MesaGeneral extends MesaGenerica {
     	this.tipoMesa = "General";
     }
 
-
+    @Override
     public void asignarVotanteAFranjaHoraria(int franja, Votante votante) {
-        // TODO implement here
-        return;
+    	
+    	if(franja < 8 || franja > 17) {
+    		throw new RuntimeException("Franja invalida");
+    	}
+    	
+    	for (FranjaHoraria f : franjasHorarias) {
+    		if (f.consultarFranja() == franja) {
+    			f.agregarVotante(votante);
+    		}
+    	}
+        
     }
     
+    @Override
     public ArrayList<FranjaHoraria> mostrarFranjasHorarias(){
 		return franjasHorarias;
     	
     }
     
+    @Override
     public FranjaHoraria mostrarFranjaHoraria(int franja){
-		 return mostrarFranjaHoraria(0);
+    	if(franja < 8 || franja > 17) {
+    		throw new RuntimeException("Franja invalida");
+    	}
+    	
+    	FranjaHoraria franjaRetorno = null;
+    	for (FranjaHoraria f : franjasHorarias) {
+    		if (f.consultarFranja() == franja) {
+    			franjaRetorno = f;
+    		}
+    	}
+    	return franjaRetorno;
     }
     
+    @Override
     public int turnosRestantesFranjaHoraria(int franja) {
-    	return turno;
+    	if(franja < 8 || franja > 17) {
+    		throw new RuntimeException("Franja invalida");
+    	}
+    	
+    	int turnosRestantes = 0;
+    	for (FranjaHoraria f : franjasHorarias) {
+    		if (f.consultarFranja() == franja) {
+    			turnosRestantes = f.consultarTurnosRestantes();
+    		}
+    	}
+    	
+    	return turnosRestantes;
     }
 
 
@@ -52,6 +85,56 @@ public class MesaGeneral extends MesaGenerica {
 	public int consultarCupo() {
 		// TODO Auto-generated method stub
 		return cupo;
+	}
+
+	@Override
+	public LinkedList<Votante> votantesFranjaHoraria(int franja) {
+		
+		if(franja < 8 || franja > 17) {
+    		throw new RuntimeException("Franja invalida");
+    	}
+		
+		
+		for(FranjaHoraria f : franjasHorarias) {
+			if(f.consultarFranja() == franja) {
+				return f.mostrarVotantes();
+			}
+		}
+		
+		return null;
+	}
+
+	@Override
+	public int consultarTurnosTotalesFranjas() {
+		// TODO Auto-generated method stub
+		int turnosTotales = 0;
+		for(FranjaHoraria f : franjasHorarias) {
+			turnosTotales += f.consultarTurnosRestantes();
+		}
+		return turnosTotales;
+	}
+
+	@Override
+	public FranjaHoraria franjaConDisponibilidad() {
+		// TODO Auto-generated method stub
+		for(FranjaHoraria f : franjasHorarias) {
+			if(f.consultarTurnosRestantes() != 0) {
+				return f;
+			}
+		}
+		// Si no hay franja con turnos disponibles, devuelvo null
+		return null;
+	}
+
+	@Override
+	public HashMap<Integer, ArrayList<Integer>> votantesTodasLasFranjas() {
+		// TODO Auto-generated method stub
+		HashMap<Integer, ArrayList<Integer>> hashVotantes = new HashMap<Integer, ArrayList<Integer>>();
+		
+		for(FranjaHoraria f : franjasHorarias) {
+			hashVotantes.put(f.consultarFranja(), f.mostrarDnisVotantes());
+		}
+		return hashVotantes;
 	}
     
     

@@ -92,4 +92,20 @@ public class MesaTrabajador extends MesaGenerica {
 		return tipoMesa;
 	}
 
+	@Override
+	public FranjaHoraria franjaConDisponibilidad() {
+		// Siempre devuelve la franja unica xq el cupo no tiene limite
+		return franjaHoraria;
+	}
+
+	@Override
+	public HashMap<Integer, ArrayList<Integer>> votantesTodasLasFranjas() {
+		// TODO Auto-generated method stub
+		
+		HashMap<Integer, ArrayList<Integer>> hashVotantes = new HashMap<Integer, ArrayList<Integer>>();
+		hashVotantes.put(franjaHoraria.consultarFranja(), franjaHoraria.mostrarDnisVotantes());
+		
+		return hashVotantes;
+	}
+
 }

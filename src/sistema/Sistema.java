@@ -71,16 +71,22 @@ public class Sistema {
 		return new ArrayList<Tupla<String,Integer>>();
 	}
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method st
+
 		Votante v = new Votante(1,"h",18,true,true);
 		MesaGenerica m = new MesaTrabajador(2,v);
-		System.out.println(m.consultarCupo());
-		
+		System.out.println(m.consultarCupo());		
 		System.out.println(m.consultarTipoMesa());
+		System.out.println(m.mostrarNombrePresidenteMesa());
+		
+		Votante v2 = new Votante(10,"hola",18,true,true);
+		m.asignarVotanteAFranjaHoraria(10, v);
+		System.out.println(m.votantesTodasLasFranjas());
 		
 		Votante v1 = new Votante(1,"h",18,true,true);
 		MesaGenerica mGeneral = new MesaGeneral(1,v1);
 		System.out.println(mGeneral.mostrarFranjasHorarias());
+		
 		
 	}
 

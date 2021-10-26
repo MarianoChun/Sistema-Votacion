@@ -69,7 +69,22 @@ public class FranjaHoraria {
 
     public boolean votanteEstaEnFranja(int dni) {
         // TODO implement here
-        return false;
+    	boolean estaVotante = false;
+    	
+    	for(Votante v : votantes) {
+    		estaVotante = estaVotante || (v.consultarDni() == dni);
+    	}
+        return estaVotante;
+    }
+    
+    public ArrayList<Integer> mostrarDnisVotantes(){
+    	ArrayList<Integer> dnis = new ArrayList<Integer>();
+    	
+    	for (Votante v : votantes) {
+    		dnis.add(v.consultarDni());
+    	}
+    	
+    	return dnis;
     }
 
 }
