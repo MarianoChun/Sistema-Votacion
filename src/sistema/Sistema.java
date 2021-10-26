@@ -85,8 +85,10 @@ public class Sistema {
 		
 		Votante v1 = new Votante(1,"h",18,true,true);
 		MesaGenerica mGeneral = new MesaGeneral(1,v1);
+		mGeneral.asignarVotanteAFranjaHoraria(11, v1);
+		//mGeneral.asignarVotanteAFranjaHoraria(12, v1);
 		System.out.println(mGeneral.mostrarFranjasHorarias());
-		
+		System.out.println(mGeneral.consultarTurnosTotalesFranjas());
 		
 	}
 
