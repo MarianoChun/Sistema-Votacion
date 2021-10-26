@@ -168,35 +168,35 @@ public class Sistema {
 	public LinkedList<Tupla<String,Integer>> sinTurnoSegunTipomesa(){
 		LinkedList<Tupla<String,Integer>> listaTiposMesa = new LinkedList<Tupla<String,Integer>>();
 
-		
-		// Creo las tuplas
-		for(MesaGenerica mesa : mesas) {
-			
-			String tipoMesa = mesa.consultarTipoMesa();
-			boolean hayTupla = false;
-			
-			// Chequeo si ya hay una tupla con ese tipoMesa
-			for(Tupla t : listaTiposMesa) {
-				hayTupla = hayTupla || t.getX().equals(tipoMesa);
-			}
-			// Si no hay tupla de ese tipo, la creo y la agrego a la lista de tuplas
-			if(!hayTupla) {
-				Tupla<String,Integer> tuplaTipoMesa = new Tupla<String, Integer>(tipoMesa,0);
-				listaTiposMesa.add(tuplaTipoMesa);
-			}
-		}
-		
-		// Ahora consulto la cantidad de votantes sin turno asignado
-		// para cada tipo de mesa
+		int contadorTrabajador = 0;
+		int contadorGeneral = 0;
+		int contadorEnf_Preex = 0;
+		int contadorMayor65 = 0;
 		
 		// Recorro por valor el registro de votantes registrados
 		for(Votante v : votantesRegistrados.values()) {
 			if(v.consultarTurno().equals(null)) {
+				// Verifico a que tipo de mesa corresponde que sea asignado el votante
 				if(v.consultarEsTrabajador()) {
-					
+					contadorTrabajador++;
+				} else if(v.consultarEsMayor() && !v.consultarTieneEnfPreex()) {
+					contadorMayor65++;
+				} else if(!v.consultarEsMayor() && v.consultarTieneEnfPreex()) {
+					contadorEnf_Preex++;
+				} else if(v.consultarEsMayor() && v.consultarTieneEnfPreex()) {
+					contadorEnf_Preex++;
+					contadorMayor65++;
+				} else {
+					contadorGeneral++;
 				}
 			}
 		}
+		
+		listaTiposMesa.add(new Tupla<String,Integer>("Trabajador",contadorTrabajador));
+		listaTiposMesa.add(new Tupla<String,Integer>("General",contadorGeneral));
+		listaTiposMesa.add(new Tupla<String,Integer>("Enf_Preex",contadorEnf_Preex));
+		listaTiposMesa.add(new Tupla<String,Integer>("Mayor65",contadorMayor65));
+		
 		return new LinkedList<Tupla<String,Integer>>();
 	}
 	public static void main(String[] args) {
