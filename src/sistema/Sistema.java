@@ -36,14 +36,36 @@ public class Sistema {
 	public int agregarMesa(String tipoMesa, int dni){
 		if(!verificarVotanteEnSistema(dni)) {
 			throw new RuntimeException("El presidente de mesa no esta registrado");
-		} else if(!votantesRegistrados.get(dni).consultarTurno().equals(null)) {
+		}
+		
+		Votante posiblePresiMesa = votantesRegistrados.get(dni);
+		if(!posiblePresiMesa.consultarTurno().equals(null)) {
 			throw new RuntimeException("El presidente de mesa ya esta asignado a una mesa");
 		}
 		
 		if(tipoMesa.equals("Trabajador")) {
-			//MesaGenerica mesaNueva = new MesaTrabajador();
+			MesaGenerica mesaNueva = new MesaTrabajador(posiblePresiMesa);
+			mesas.add(mesaNueva);
+			return mesaNueva.mostrarNumeroMesa();
+			
+		} else if(tipoMesa.equals("Mayor65")) {
+			MesaGenerica mesaNueva = new MesaMayor65(posiblePresiMesa);
+			mesas.add(mesaNueva);
+			return mesaNueva.mostrarNumeroMesa();
+			
+		} else if(tipoMesa.equals("Enf_Preex")) {
+			MesaGenerica mesaNueva = new MesaEnfPreex(posiblePresiMesa);
+			mesas.add(mesaNueva);
+			return mesaNueva.mostrarNumeroMesa();
+			
+		} else if(tipoMesa.equals("General")) {
+			MesaGenerica mesaNueva = new MesaGeneral(posiblePresiMesa);
+			mesas.add(mesaNueva);
+			return mesaNueva.mostrarNumeroMesa();
+			
+		} else {
+			throw new RuntimeException("Tipo de mesa invalida");
 		}
-		return 1;
 	}
 	
 	public Tupla<Integer,Integer> asignarTurno(int dni){
@@ -60,31 +82,122 @@ public class Sistema {
 	}
 	
 	public int consultarCantTurnosDisponibles(int numMesa){
-		return 1;
+		for(MesaGenerica mesa : mesas) {
+			if(mesa.mostrarNumeroMesa() == numMesa) {
+				return mesa.consultarTurnosTotalesFranjas();
+			}
+		}
+		// Si no encontro la mesa, devuelvo -1
+		return -1;
 	}
 	
 	public Tupla<Integer,Integer> consultarTurno(int dni){
-		return new Tupla<Integer,Integer>(1,1);
+		if(!verificarVotanteEnSistema(dni)) {
+			throw new RuntimeException("El votante no esta registrado");
+		}
+		
+		Votante vot = votantesRegistrados.get(dni);
+		
+		if(!vot.consultarTurno().equals(null)) {
+			Turno t = vot.consultarTurno();
+			return new Tupla<Integer,Integer>(t.mostrarNumMesaTurno(),t.mostrarFranjaTurno());
+		}
+		
+		return null;
 	}
 	
 	public boolean sePresentoVotar(int dni) {
-		return true;
+		if(!verificarVotanteEnSistema(dni)) {
+			throw new RuntimeException("El votante no esta registrado");
+		}
+		
+		return votantesRegistrados.get(dni).consultarSiFueAVotar();
 	}
 	
 	public boolean votar(int dni) {
+		
+		if(sePresentoVotar(dni)) {
+			return false;
+		}
+		votantesRegistrados.get(dni).votar();
 		return true;
+		
 	}
 	
 	public int votantesConTurno(String tipoMesa) {
-		return 1;
+		if(!tipoMesa.equals("Mayor65") || !tipoMesa.equals("General") ||
+			!tipoMesa.equals("Enf_Preex") || !tipoMesa.equals("Trabajador")) {
+			throw new RuntimeException("Tipo de mesa invalida");
+		}
+		
+		int votantesConTurno = 0;
+		for(MesaGenerica mesa : mesas) {
+			if(mesa.consultarTipoMesa().equals(tipoMesa)) {
+				votantesConTurno += mesa.votantesTodasLasFranjas().size();
+			}
+		}
+		return votantesConTurno;
 	}
 	
+	public boolean verificarMesaEnSistema(int numMesa) {
+		for(MesaGenerica mesa : mesas) {
+			if (mesa.mostrarNumeroMesa() == numMesa) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public MesaGenerica buscarMesa(int numMesa) {
+		for(MesaGenerica mesa : mesas) {
+			if (mesa.mostrarNumeroMesa() == numMesa) {
+				return mesa;
+			}
+		}
+		return null;
+	}
 	public HashMap<Integer,ArrayList<Integer>> asignadosAMesa(int numMesa){
-		return new HashMap<Integer,ArrayList<Integer>>();
+		if(!verificarMesaEnSistema(numMesa)) {
+			throw new RuntimeException("El numero de mesa no es valido para ninguna mesa del sistema");
+		}
+		
+		MesaGenerica mesa = buscarMesa(numMesa);	
+		return mesa.votantesTodasLasFranjas();
 	}
 	
-	public ArrayList<Tupla<String,Integer>> sinTurnoSegunTipomesa(){
-		return new ArrayList<Tupla<String,Integer>>();
+	public LinkedList<Tupla<String,Integer>> sinTurnoSegunTipomesa(){
+		LinkedList<Tupla<String,Integer>> listaTiposMesa = new LinkedList<Tupla<String,Integer>>();
+
+		
+		// Creo las tuplas
+		for(MesaGenerica mesa : mesas) {
+			
+			String tipoMesa = mesa.consultarTipoMesa();
+			boolean hayTupla = false;
+			
+			// Chequeo si ya hay una tupla con ese tipoMesa
+			for(Tupla t : listaTiposMesa) {
+				hayTupla = hayTupla || t.getX().equals(tipoMesa);
+			}
+			// Si no hay tupla de ese tipo, la creo y la agrego a la lista de tuplas
+			if(!hayTupla) {
+				Tupla<String,Integer> tuplaTipoMesa = new Tupla<String, Integer>(tipoMesa,0);
+				listaTiposMesa.add(tuplaTipoMesa);
+			}
+		}
+		
+		// Ahora consulto la cantidad de votantes sin turno asignado
+		// para cada tipo de mesa
+		
+		// Recorro por valor el registro de votantes registrados
+		for(Votante v : votantesRegistrados.values()) {
+			if(v.consultarTurno().equals(null)) {
+				if(v.consultarEsTrabajador()) {
+					
+				}
+			}
+		}
+		return new LinkedList<Tupla<String,Integer>>();
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method st
