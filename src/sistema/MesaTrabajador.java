@@ -13,8 +13,8 @@ public class MesaTrabajador extends MesaGenerica {
     /**
      * Default constructor
      */
-    public MesaTrabajador(int numeroMesa, Votante presidenteMesa) {
-    	super(numeroMesa, presidenteMesa);
+    public MesaTrabajador(Votante presidenteMesa) {
+    	super(presidenteMesa);
     	//this.cupo = 2147483647;
 
     	//this.franjasHorarias = new ArrayList<FranjaHoraria>();

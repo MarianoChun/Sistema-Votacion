@@ -7,15 +7,15 @@ import java.util.Map;
 
 public class Sistema {
 	
-	String nombreSistema;
-	HashMap<Integer,Votante> votantesRegistrados;
-	LinkedList<MesaGenerica> mesas;
+	private String nombreSistema;
+	private HashMap<Integer,Votante> votantesRegistrados;
+	private LinkedList<MesaGenerica> mesas;
 	
 	
 	public Sistema(String nombreSistema) {
 		super();
 		
-		if(nombreSistema == null) {
+		if(nombreSistema.equals(null)) {
 			throw new RuntimeException("El nombre de sistema no debe ser vacio");
 		}
 		
@@ -24,10 +24,25 @@ public class Sistema {
 	}
 
 	public void registrarVotante(int dni, String nombre, int edad, boolean tieneEnfPreex, boolean esTrabajador){
+		if(verificarVotanteEnSistema(dni)) {
+			throw new RuntimeException("El votante ya esta registrado");
+		}
+				
+		Votante votanteNuevo = new Votante(dni,nombre,edad,tieneEnfPreex,esTrabajador);
+		votantesRegistrados.put(dni, votanteNuevo);
 		
 	}
 	
 	public int agregarMesa(String tipoMesa, int dni){
+		if(!verificarVotanteEnSistema(dni)) {
+			throw new RuntimeException("El presidente de mesa no esta registrado");
+		} else if(!votantesRegistrados.get(dni).consultarTurno().equals(null)) {
+			throw new RuntimeException("El presidente de mesa ya esta asignado a una mesa");
+		}
+		
+		if(tipoMesa.equals("Trabajador")) {
+			//MesaGenerica mesaNueva = new MesaTrabajador();
+		}
 		return 1;
 	}
 	
@@ -40,7 +55,8 @@ public class Sistema {
 	}
 	
 	public boolean verificarVotanteEnSistema(int dni) {
-		return true;
+		
+		return votantesRegistrados.containsKey(dni);
 	}
 	
 	public int consultarCantTurnosDisponibles(int numMesa){
@@ -74,9 +90,10 @@ public class Sistema {
 		// TODO Auto-generated method st
 
 		Votante v = new Votante(1,"h",18,true,true);
-		MesaGenerica m = new MesaTrabajador(2,v);
+		MesaGenerica m = new MesaTrabajador(v);
 		System.out.println(m.consultarCupo());		
 		System.out.println(m.consultarTipoMesa());
+		System.out.println("Numero mesa " + m.mostrarNumeroMesa());
 		System.out.println(m.mostrarNombrePresidenteMesa());
 		
 		Votante v2 = new Votante(10,"hola",18,true,true);
@@ -84,12 +101,15 @@ public class Sistema {
 		System.out.println(m.votantesTodasLasFranjas());
 		
 		Votante v1 = new Votante(1,"h",18,true,true);
-		MesaGenerica mGeneral = new MesaGeneral(1,v1);
+		MesaGenerica mGeneral = new MesaGeneral(v1);
 		mGeneral.asignarVotanteAFranjaHoraria(11, v1);
 		//mGeneral.asignarVotanteAFranjaHoraria(12, v1);
+		System.out.println("Numero mesa " + mGeneral.mostrarNumeroMesa());
 		System.out.println(mGeneral.mostrarFranjasHorarias());
 		System.out.println(mGeneral.consultarTurnosTotalesFranjas());
 		
+		MesaGeneral mGeneral1 = new MesaGeneral(v1);
+		System.out.println("Numero mesa " + mGeneral1.mostrarNumeroMesa());
 	}
 
 }

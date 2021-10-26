@@ -13,8 +13,8 @@ public class MesaGeneral extends MesaGenerica {
     /**
      * Default constructor
      */
-    public MesaGeneral(int numeroMesa, Votante presidenteMesa) {
-    	super(numeroMesa, presidenteMesa);  	
+    public MesaGeneral(Votante presidenteMesa) {
+    	super(presidenteMesa);  	
     	for(int franja = 8; franja < 18; franja++) {
     		franjasHorarias.add(new FranjaHoraria(franja,cupo));
     	}

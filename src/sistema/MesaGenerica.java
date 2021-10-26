@@ -8,7 +8,7 @@ import java.util.*;
  */
 public abstract class MesaGenerica {
 	
-    private int numeroMesa;
+    private static int numeroMesa = 0;
     private ArrayList<FranjaHoraria> franjasHorarias;
     private Votante presidenteMesa;
     private int cupo;
@@ -18,8 +18,8 @@ public abstract class MesaGenerica {
      * Default constructor
      */
     
-    public MesaGenerica(int numeroMesa, Votante presidenteMesa) {
-    	this.numeroMesa = numeroMesa;
+    public MesaGenerica(Votante presidenteMesa) {
+    	MesaGenerica.numeroMesa += 1;
     	this.presidenteMesa = presidenteMesa;
     	this.franjasHorarias = new ArrayList<FranjaHoraria>();
 
