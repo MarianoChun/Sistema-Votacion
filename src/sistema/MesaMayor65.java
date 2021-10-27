@@ -123,9 +123,9 @@ public class MesaMayor65 extends MesaGenerica {
 	}
 
 	@Override
-	public HashMap<Integer, ArrayList<Integer>> votantesTodasLasFranjas() {
+	public Map<Integer, List<Integer>> votantesTodasLasFranjas() {
 		
-		HashMap<Integer, ArrayList<Integer>> hashVotantes = new HashMap<Integer, ArrayList<Integer>>();
+		Map<Integer, List<Integer>> hashVotantes = new HashMap<Integer, List<Integer>>();
 		
 		for(FranjaHoraria f : franjasHorarias) {
 			hashVotantes.put(f.consultarFranja(), f.mostrarDnisVotantes());

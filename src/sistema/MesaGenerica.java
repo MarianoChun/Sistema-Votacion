@@ -43,7 +43,7 @@ public abstract class MesaGenerica {
 
     public abstract FranjaHoraria franjaConDisponibilidad();
 
-    public abstract HashMap<Integer,ArrayList<Integer>> votantesTodasLasFranjas();
+    public abstract Map<Integer, List<Integer>> votantesTodasLasFranjas();
     
     public int mostrarNumeroMesa() {
         // TODO implement here

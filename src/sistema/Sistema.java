@@ -3,6 +3,7 @@ package sistema;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class Sistema {
@@ -247,7 +248,7 @@ public class Sistema {
 		}
 		return null;
 	}
-	public HashMap<Integer,ArrayList<Integer>> asignadosAMesa(int numMesa){
+	public Map<Integer, List<Integer>> asignadosAMesa(int numMesa){
 		if(!verificarMesaEnSistema(numMesa)) {
 			throw new RuntimeException("El numero de mesa no es valido para ninguna mesa del sistema");
 		}
@@ -256,7 +257,7 @@ public class Sistema {
 		return mesa.votantesTodasLasFranjas();
 	}
 	
-	public LinkedList<Tupla<String,Integer>> sinTurnoSegunTipomesa(){
+	public LinkedList<Tupla<String,Integer>> sinTurnoSegunTipoMesa(){
 		LinkedList<Tupla<String,Integer>> listaTiposMesa = new LinkedList<Tupla<String,Integer>>();
 
 		int contadorTrabajador = 0;

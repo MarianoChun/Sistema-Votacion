@@ -99,10 +99,10 @@ public class MesaTrabajador extends MesaGenerica {
 	}
 
 	@Override
-	public HashMap<Integer, ArrayList<Integer>> votantesTodasLasFranjas() {
+	public Map<Integer, List<Integer>> votantesTodasLasFranjas() {
 		// TODO Auto-generated method stub
 		
-		HashMap<Integer, ArrayList<Integer>> hashVotantes = new HashMap<Integer, ArrayList<Integer>>();
+		Map<Integer, List<Integer>> hashVotantes = new HashMap<Integer, List<Integer>>();
 		hashVotantes.put(franjaHoraria.consultarFranja(), franjaHoraria.mostrarDnisVotantes());
 		
 		return hashVotantes;
