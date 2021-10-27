@@ -22,7 +22,7 @@ public abstract class MesaGenerica {
     	MesaGenerica.numeroMesa += 1;
     	this.presidenteMesa = presidenteMesa;
     	this.franjasHorarias = new ArrayList<FranjaHoraria>();
-
+    	
     }
 
     public abstract ArrayList<FranjaHoraria> mostrarFranjasHorarias();

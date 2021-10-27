@@ -19,6 +19,10 @@ public class MesaGeneral extends MesaGenerica {
     		franjasHorarias.add(new FranjaHoraria(franja,cupo));
     	}
     	this.tipoMesa = "General";
+    	// Asigno al presidente de mesa a una franja y le asigno el turno
+    	FranjaHoraria franja = franjaConDisponibilidad();
+    	asignarVotanteAFranjaHoraria(franja.consultarFranja(),presidenteMesa); 
+    	presidenteMesa.crearTurno(this, franja);
     }
 
     @Override

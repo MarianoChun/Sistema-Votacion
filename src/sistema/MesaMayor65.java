@@ -5,7 +5,7 @@ import java.util.*;
  * 
  */
 public class MesaMayor65 extends MesaGenerica {
-	private ArrayList<FranjaHoraria> franjasHorarias;
+	private ArrayList<FranjaHoraria> franjasHorarias = new ArrayList<FranjaHoraria>();
     private int cupo = 10;
     private String tipoMesa;
 
@@ -19,7 +19,10 @@ public class MesaMayor65 extends MesaGenerica {
     		franjasHorarias.add(new FranjaHoraria(franja,cupo));
     	}
     	this.tipoMesa = "Mayor65";
-    	
+    	// Asigno al presidente de mesa a una franja y le asigno el turno
+    	FranjaHoraria franja = franjaConDisponibilidad();
+    	asignarVotanteAFranjaHoraria(franja.consultarFranja(),presidenteMesa); 
+    	presidenteMesa.crearTurno(this, franja);
     }
 
     @Override

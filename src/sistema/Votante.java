@@ -11,7 +11,7 @@ public class Votante {
 	private boolean fueAVotar;
 	private Turno turno;
 	
-	public Votante(int dni, String nombre, int edad, boolean esTrabajador, boolean tieneEnfPreex) {
+	public Votante(int dni, String nombre, int edad, boolean tieneEnfPreex, boolean esTrabajador) {
 		if(edad < 16) {
 			throw new RuntimeException("Un votante menor de 16 no puede votar");
 		} else if (edad >= 16 && edad < 65) {

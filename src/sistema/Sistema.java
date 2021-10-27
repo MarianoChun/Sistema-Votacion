@@ -40,7 +40,7 @@ public class Sistema {
 		}
 		
 		Votante posiblePresiMesa = votantesRegistrados.get(dni);
-		if(!posiblePresiMesa.consultarTurno().equals(null)) {
+		if(!(posiblePresiMesa.consultarTurno() == null)) {
 			throw new RuntimeException("El presidente de mesa ya esta asignado a una mesa");
 		}
 		
@@ -125,11 +125,12 @@ public class Sistema {
 	
 	public int asignarTurno() {
 		int cantidadTurnosAsignados = 0;
-
+		boolean turnoAsignado;
 		for (Votante v : votantesRegistrados.values()) {
-			if (v.consultarTurno().equals(null)) { // Si no tiene turno, le asigno uno
+			turnoAsignado = false;
+			if (v.consultarTurno() == null) { // Si no tiene turno, le asigno uno
 				for (MesaGenerica mesa : mesas) {
-					if (v.consultarEsTrabajador()) { 
+					if (v.consultarEsTrabajador() && !turnoAsignado) { 
 						if (mesa.consultarTipoMesa().equals("Trabajador") && mesa.consultarTurnosTotalesFranjas() > 0) {
 							// Obtengo la primera franja con disponibilidad
 							FranjaHoraria franjaDisponible = mesa.franjaConDisponibilidad();
@@ -138,9 +139,10 @@ public class Sistema {
 							// Lo asigno a la franja
 							mesa.asignarVotanteAFranjaHoraria(franjaDisponible.consultarFranja(), v);
 							cantidadTurnosAsignados++;
+							turnoAsignado = true;
 
 						}
-					} else if (v.consultarEsMayor() || v.consultarTieneEnfPreex()) {
+					} else if ((v.consultarEsMayor() || v.consultarTieneEnfPreex()) && !turnoAsignado) {
 						if ((mesa.consultarTipoMesa().equals("Mayor65") || mesa.consultarTipoMesa().equals("Enf_Preex"))
 								&& mesa.consultarTurnosTotalesFranjas() > 0) {
 							// Obtengo la primera franja con disponibilidad
@@ -150,9 +152,10 @@ public class Sistema {
 							// Lo asigno a la franja
 							mesa.asignarVotanteAFranjaHoraria(franjaDisponible.consultarFranja(), v);
 							cantidadTurnosAsignados++;
+							turnoAsignado = true;
 						}
 					} else {
-						if (mesa.consultarTipoMesa().equals("General") && mesa.consultarTurnosTotalesFranjas() > 0) {
+						if (mesa.consultarTipoMesa().equals("General") && mesa.consultarTurnosTotalesFranjas() > 0 && !turnoAsignado) {
 							// Obtengo la primera franja con disponibilidad
 							FranjaHoraria franjaDisponible = mesa.franjaConDisponibilidad();
 							// Creo el turno y se lo asigno al votante
@@ -160,6 +163,7 @@ public class Sistema {
 							// Lo asigno a la franja
 							mesa.asignarVotanteAFranjaHoraria(franjaDisponible.consultarFranja(), v);
 							cantidadTurnosAsignados++;
+							turnoAsignado = true;
 						}
 					}
 				}
@@ -302,7 +306,7 @@ public class Sistema {
 		System.out.println(m.mostrarNombrePresidenteMesa());
 		
 		Votante v2 = new Votante(10,"hola",18,true,true);
-		m.asignarVotanteAFranjaHoraria(10, v);
+
 		System.out.println(m.votantesTodasLasFranjas());
 		
 		Votante v1 = new Votante(1,"h",18,true,true);

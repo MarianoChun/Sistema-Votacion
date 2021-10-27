@@ -6,7 +6,7 @@ import java.util.*;
  */
 public class MesaEnfPreex extends MesaGenerica {
 	
-    private ArrayList<FranjaHoraria> franjasHorarias;
+    private ArrayList<FranjaHoraria> franjasHorarias = new ArrayList<FranjaHoraria>();
     private int cupo = 20;
     private String tipoMesa;
     /**
@@ -19,6 +19,10 @@ public class MesaEnfPreex extends MesaGenerica {
     		franjasHorarias.add(new FranjaHoraria(franja,cupo));
     	}
     	this.tipoMesa = "Enf_Preex";
+    	// Asigno al presidente de mesa a una franja y le asigno el turno
+    	FranjaHoraria franja = franjaConDisponibilidad();
+    	asignarVotanteAFranjaHoraria(franja.consultarFranja(),presidenteMesa); 
+    	presidenteMesa.crearTurno(this, franja);
     }
 
     @Override
