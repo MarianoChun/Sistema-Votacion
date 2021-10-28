@@ -76,7 +76,7 @@ public class Sistema {
 		
 		Votante v = votantesRegistrados.get(dni);
 		// Si tiene turno, lo devuelvo
-		if(!v.consultarTurno().equals(null)) {
+		if(!(v.consultarTurno() == null)) {
 			Turno t = v.consultarTurno();
 			return new Tupla<Integer,Integer>(t.mostrarNumMesaTurno(),t.mostrarFranjaTurno());
 		}
@@ -142,7 +142,9 @@ public class Sistema {
 							turnoAsignado = true;
 
 						}
-					} else if ((v.consultarEsMayor() || v.consultarTieneEnfPreex()) && !turnoAsignado) {
+					} else if (!v.consultarEsTrabajador() && 
+							(v.consultarEsMayor() || v.consultarTieneEnfPreex()) && !turnoAsignado) {
+						
 						if ((mesa.consultarTipoMesa().equals("Mayor65") || mesa.consultarTipoMesa().equals("Enf_Preex"))
 								&& mesa.consultarTurnosTotalesFranjas() > 0) {
 							// Obtengo la primera franja con disponibilidad
@@ -154,7 +156,8 @@ public class Sistema {
 							cantidadTurnosAsignados++;
 							turnoAsignado = true;
 						}
-					} else {
+					} else if(!v.consultarEsTrabajador() && 
+							!v.consultarEsMayor() && !v.consultarTieneEnfPreex()){
 						if (mesa.consultarTipoMesa().equals("General") && mesa.consultarTurnosTotalesFranjas() > 0 && !turnoAsignado) {
 							// Obtengo la primera franja con disponibilidad
 							FranjaHoraria franjaDisponible = mesa.franjaConDisponibilidad();
@@ -261,8 +264,8 @@ public class Sistema {
 		return mesa.votantesTodasLasFranjas();
 	}
 	
-	public LinkedList<Tupla<String,Integer>> sinTurnoSegunTipoMesa(){
-		LinkedList<Tupla<String,Integer>> listaTiposMesa = new LinkedList<Tupla<String,Integer>>();
+	public List<Tupla<String,Integer>> sinTurnoSegunTipoMesa(){
+		List<Tupla<String,Integer>> listaTiposMesa = new LinkedList<Tupla<String,Integer>>();
 
 		int contadorTrabajador = 0;
 		int contadorGeneral = 0;
@@ -271,7 +274,7 @@ public class Sistema {
 		
 		// Recorro por valor el registro de votantes registrados
 		for(Votante v : votantesRegistrados.values()) {
-			if(v.consultarTurno().equals(null)) {
+			if(v.consultarTurno() == null) {
 				// Verifico a que tipo de mesa corresponde que sea asignado el votante
 				if(v.consultarEsTrabajador()) {
 					contadorTrabajador++;
@@ -293,7 +296,7 @@ public class Sistema {
 		listaTiposMesa.add(new Tupla<String,Integer>("Enf_Preex",contadorEnf_Preex));
 		listaTiposMesa.add(new Tupla<String,Integer>("Mayor65",contadorMayor65));
 		
-		return new LinkedList<Tupla<String,Integer>>();
+		return listaTiposMesa;
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method st
@@ -317,8 +320,16 @@ public class Sistema {
 		System.out.println(mGeneral.mostrarFranjasHorarias());
 		System.out.println(mGeneral.consultarTurnosTotalesFranjas());
 		
-		MesaGeneral mGeneral1 = new MesaGeneral(v1);
-		System.out.println("Numero mesa " + mGeneral1.mostrarNumeroMesa());
+		//MesaGeneral mGeneral1 = new MesaGeneral(v1);
+		//System.out.println("Numero mesa " + mGeneral1.mostrarNumeroMesa());
+	
+		Sistema s = new Sistema("Hola");
+		
+		Votante sinT1 = new Votante(10,"pepe",18,false,true);
+		Votante sinT2 = new Votante(15,"zapo",28,true,true);
+		Votante sinT3 = new Votante(16,"tito",60,true,true);
+		List<Tupla<String, Integer>> votantesSinTurno = s.sinTurnoSegunTipoMesa();
+		System.out.println(votantesSinTurno);
 	}
 
 }
