@@ -8,7 +8,7 @@ public class MesaGeneral extends MesaGenerica {
 	
 	    private ArrayList<FranjaHoraria> franjasHorarias = new ArrayList<FranjaHoraria>();
 	    private int cupo = 30;
-	    //private String tipoMesa;
+
 
     /**
      * Default constructor
@@ -76,14 +76,6 @@ public class MesaGeneral extends MesaGenerica {
     	
     	return turnosRestantes;
     }
-
-/*
-	@Override
-	public String consultarTipoMesa() {
-		// TODO Auto-generated method stub
-		return tipoMesa;
-	}
-*/
 
 	@Override
 	public int consultarCupo() {

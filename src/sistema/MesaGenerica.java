@@ -75,4 +75,23 @@ public abstract class MesaGenerica {
 	}
 
 
+	@Override
+	public boolean equals(Object obj) {
+
+		if (obj == null)
+			return false;
+		if (!(obj instanceof MesaGenerica))
+			return false;
+		
+		MesaGenerica otraMesa = (MesaGenerica) obj;
+		
+		if(this.mostrarNumeroMesa() != otraMesa.mostrarNumeroMesa()) {
+			return false;
+		} else {
+			return true;
+		}
+		
+	}
+
+
 }

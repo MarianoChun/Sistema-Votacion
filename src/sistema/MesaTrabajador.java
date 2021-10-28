@@ -9,13 +9,13 @@ public class MesaTrabajador extends MesaGenerica {
 
     private FranjaHoraria franjaHoraria;
     private int cupo = 2147483647;
-    private String tipoMesa;
+
     /**
      * Default constructor
      */
     public MesaTrabajador(Votante presidenteMesa) {
     	super(presidenteMesa, "Trabajador");
-    	this.tipoMesa = "Trabajador";
+
     	this.franjaHoraria = new FranjaHoraria(8,cupo);
     	// Asigno al presidente de mesa a una franja y le asigno el turno
     	FranjaHoraria franja = franjaConDisponibilidad();
@@ -86,12 +86,6 @@ public class MesaTrabajador extends MesaGenerica {
     	} 
 		 return franjaHoraria;
     }
-
-	@Override
-	public String consultarTipoMesa() {
-		// TODO Auto-generated method stub
-		return tipoMesa;
-	}
 
 	@Override
 	public FranjaHoraria franjaConDisponibilidad() {

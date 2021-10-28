@@ -8,7 +8,7 @@ public class MesaEnfPreex extends MesaGenerica {
 	
     private ArrayList<FranjaHoraria> franjasHorarias = new ArrayList<FranjaHoraria>();
     private int cupo = 20;
-    //private String tipoMesa;
+
     /**
      * Default constructor
      */
@@ -100,13 +100,7 @@ public class MesaEnfPreex extends MesaGenerica {
 		}
 		return turnosTotales;
 	}
-/*
-	@Override
-	public String consultarTipoMesa() {
-		// TODO Auto-generated method stub
-		return tipoMesa;
-	}
-*/
+
 	@Override
 	public int consultarCupo() {
 		// TODO Auto-generated method stub
