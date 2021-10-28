@@ -8,17 +8,17 @@ public class MesaGeneral extends MesaGenerica {
 	
 	    private ArrayList<FranjaHoraria> franjasHorarias = new ArrayList<FranjaHoraria>();
 	    private int cupo = 30;
-	    private String tipoMesa;
+	    //private String tipoMesa;
 
     /**
      * Default constructor
      */
     public MesaGeneral(Votante presidenteMesa) {
-    	super(presidenteMesa);  	
+    	super(presidenteMesa, "General");  	
     	for(int franja = 8; franja < 18; franja++) {
     		franjasHorarias.add(new FranjaHoraria(franja,cupo));
     	}
-    	this.tipoMesa = "General";
+
     	// Asigno al presidente de mesa a una franja y le asigno el turno
     	FranjaHoraria franja = franjaConDisponibilidad();
     	asignarVotanteAFranjaHoraria(franja.consultarFranja(),presidenteMesa); 
@@ -77,13 +77,13 @@ public class MesaGeneral extends MesaGenerica {
     	return turnosRestantes;
     }
 
-
+/*
 	@Override
 	public String consultarTipoMesa() {
 		// TODO Auto-generated method stub
 		return tipoMesa;
 	}
-
+*/
 
 	@Override
 	public int consultarCupo() {

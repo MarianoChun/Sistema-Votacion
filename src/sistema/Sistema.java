@@ -19,7 +19,7 @@ public class Sistema {
 		if(nombreSistema.equals(null)) {
 			throw new RuntimeException("El nombre de sistema no debe ser vacio");
 		}
-		
+		this.nombreSistema = nombreSistema;
 		this.votantesRegistrados = new HashMap<>();
 		this.mesas = new LinkedList<>();
 	}
@@ -298,9 +298,50 @@ public class Sistema {
 		
 		return listaTiposMesa;
 	}
+	
+	public List<Tupla<Integer,Tupla<Integer,Integer>>> mostrarTurnosVotantes(){
+		// Contiene el DNI del votante relacionado y su Turno (numMesa y franja horaria)
+		List<Tupla<Integer,Tupla<Integer,Integer>>> listaVotantesYTurnos = new LinkedList<Tupla<Integer,Tupla<Integer,Integer>>>();
+		for(Votante v : votantesRegistrados.values()) {
+			if(v.consultarTurno() != null) {
+				Turno t = v.consultarTurno();
+				listaVotantesYTurnos.add(new Tupla<Integer,Tupla<Integer,Integer>>
+				(v.consultarDni(),
+				new Tupla<Integer, Integer>(t.mostrarNumMesaTurno(),t.mostrarFranjaTurno())));
+			}
+		}
+		return listaVotantesYTurnos;
+		
+	}
+	@Override
+	public String toString() {
+		StringBuilder cadena = new StringBuilder();
+		cadena.append("-------------------------------------\n");
+		cadena.append(nombreSistema);
+		cadena.append("\n-------------------------------------\n");
+		cadena.append("Votantes en espera para un turno (Segun tipo de mesa):\n");
+		cadena.append(this.sinTurnoSegunTipoMesa());
+		cadena.append("\n-------------------------------------\n");
+		cadena.append("Votantes con turno asignado:\n");
+		for(Votante v : votantesRegistrados.values()) {
+			if(v.consultarTurno() != null) {
+				cadena.append(v.toString());
+			}
+			
+		}
+		cadena.append("\n-------------------------------------\n");
+		cadena.append("Mesas habilitadas en el sistema\n");
+		for(MesaGenerica m : mesas) {
+			cadena.append(m.toString());
+		}
+		
+	
+		return cadena.toString();
+	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method st
-
+		
 		Votante v = new Votante(1,"h",18,true,true);
 		MesaGenerica m = new MesaTrabajador(v);
 		System.out.println(m.consultarCupo());		
@@ -322,14 +363,25 @@ public class Sistema {
 		
 		//MesaGeneral mGeneral1 = new MesaGeneral(v1);
 		//System.out.println("Numero mesa " + mGeneral1.mostrarNumeroMesa());
-	
-		Sistema s = new Sistema("Hola");
 		
+		///////////////////
+		Sistema s = new Sistema("Hola");
+		/*
 		Votante sinT1 = new Votante(10,"pepe",18,false,true);
 		Votante sinT2 = new Votante(15,"zapo",28,true,true);
 		Votante sinT3 = new Votante(16,"tito",60,true,true);
+		*/
+		
+		s.registrarVotante(30, "Hernan", 20, false, false);
+		s.registrarVotante(40, "Jairo", 32, true, false);
+		s.registrarVotante(50, "Lele", 80, false, true);
+		
+		
+		s.agregarMesa("Trabajador", 50);
 		List<Tupla<String, Integer>> votantesSinTurno = s.sinTurnoSegunTipoMesa();
 		System.out.println(votantesSinTurno);
+		System.out.println(s.toString());
+		
 	}
 
 }

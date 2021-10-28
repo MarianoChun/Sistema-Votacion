@@ -70,4 +70,31 @@ public class Votante {
 		
 		turno = new Turno(mesa,franjaHoraria);
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder cadena = new StringBuilder();
+		cadena.append("DNI: ").append(consultarDni());
+		if(consultarTurno() != null) {
+			Turno t = consultarTurno();
+
+			cadena.append(", Turno: (");
+			cadena.append("NumMesa: ").append(t.mostrarNumMesaTurno()).append(",");
+			cadena.append("Franja: ").append(t.mostrarFranjaTurno()).append(")");
+			
+			cadena.append(", Fue a votar: ");
+			if(consultarSiFueAVotar()) {
+				cadena.append("Si | ");
+			} else {
+				cadena.append("No | ");
+			}
+		} else {
+			cadena.append(", Turno: (").append(consultarTurno()).append(") | ");
+			
+		}
+		
+		return cadena.toString();
+	}
+	
+	
 }

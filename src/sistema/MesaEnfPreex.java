@@ -8,17 +8,17 @@ public class MesaEnfPreex extends MesaGenerica {
 	
     private ArrayList<FranjaHoraria> franjasHorarias = new ArrayList<FranjaHoraria>();
     private int cupo = 20;
-    private String tipoMesa;
+    //private String tipoMesa;
     /**
      * Default constructor
      */
     public MesaEnfPreex(Votante presidenteMesa) {
-    	super(presidenteMesa);
+    	super(presidenteMesa, "Enf_Preex");
     	
     	for(int franja = 8; franja < 18; franja++) {
     		franjasHorarias.add(new FranjaHoraria(franja,cupo));
     	}
-    	this.tipoMesa = "Enf_Preex";
+
     	// Asigno al presidente de mesa a una franja y le asigno el turno
     	FranjaHoraria franja = franjaConDisponibilidad();
     	asignarVotanteAFranjaHoraria(franja.consultarFranja(),presidenteMesa); 
@@ -100,13 +100,13 @@ public class MesaEnfPreex extends MesaGenerica {
 		}
 		return turnosTotales;
 	}
-
+/*
 	@Override
 	public String consultarTipoMesa() {
 		// TODO Auto-generated method stub
 		return tipoMesa;
 	}
-
+*/
 	@Override
 	public int consultarCupo() {
 		// TODO Auto-generated method stub

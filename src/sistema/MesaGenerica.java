@@ -18,11 +18,11 @@ public abstract class MesaGenerica {
      * Default constructor
      */
     
-    public MesaGenerica(Votante presidenteMesa) {
+    public MesaGenerica(Votante presidenteMesa , String tipoMesa) {
     	MesaGenerica.numeroMesa += 1;
     	this.presidenteMesa = presidenteMesa;
     	this.franjasHorarias = new ArrayList<FranjaHoraria>();
-    	
+    	this.tipoMesa = tipoMesa;
     }
 
     public abstract ArrayList<FranjaHoraria> mostrarFranjasHorarias();
@@ -37,7 +37,9 @@ public abstract class MesaGenerica {
 
     public abstract int consultarTurnosTotalesFranjas();
 
-    public abstract String consultarTipoMesa();
+    public  String consultarTipoMesa() {
+    	return tipoMesa;
+    }
 
     public abstract int consultarCupo();
 
@@ -59,6 +61,18 @@ public abstract class MesaGenerica {
         // TODO implement here
         return presidenteMesa.consultarNombre();
     }
+
+	@Override
+	public String toString() {
+		StringBuilder cadena = new StringBuilder();
+		cadena.append("Mesa: (Numero de Mesa: ");
+		cadena.append(numeroMesa);
+		cadena.append(", Tipo de Mesa: ").append(tipoMesa);
+		cadena.append(", Presidente de Mesa: (DNI: ");
+		cadena.append(presidenteMesa.consultarDni());
+		cadena.append(" Nombre: ").append(presidenteMesa.consultarNombre()).append(")");
+		return cadena.toString();
+	}
 
 
 }

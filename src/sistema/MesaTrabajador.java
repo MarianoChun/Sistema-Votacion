@@ -14,16 +14,14 @@ public class MesaTrabajador extends MesaGenerica {
      * Default constructor
      */
     public MesaTrabajador(Votante presidenteMesa) {
-    	super(presidenteMesa);
+    	super(presidenteMesa, "Trabajador");
     	this.tipoMesa = "Trabajador";
     	this.franjaHoraria = new FranjaHoraria(8,cupo);
     	// Asigno al presidente de mesa a una franja y le asigno el turno
     	FranjaHoraria franja = franjaConDisponibilidad();
     	asignarVotanteAFranjaHoraria(franja.consultarFranja(),presidenteMesa); 
     	presidenteMesa.crearTurno(this, franja);
-    	//this.cupo = 2147483647
-    	//this.franjasHorarias = new ArrayList<FranjaHoraria>();
-    	//this.franjaHoraria = 
+
     }
 
     @Override

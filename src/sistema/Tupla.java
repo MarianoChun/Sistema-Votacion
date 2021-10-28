@@ -16,4 +16,15 @@ public class Tupla<X, Y> {
 	public Y getY() {
 		return y;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder cadena = new StringBuilder();
+		cadena.append("(");
+		cadena.append(getX());
+		cadena.append(",");
+		cadena.append(getY());
+		cadena.append(")");
+		return cadena.toString();
+	}
 }
