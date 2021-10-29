@@ -308,6 +308,33 @@ public class SistemaDeTurnosTest {
 		
 	
 	}
+	/*
+	 * Asigna un presidente ya asignado a una mesa, esto deberia no poder hacerse
+	 */
+	@Test
+	public void asignacionMesaDniYaAsignado() {
+		
+		// Si ya tiene un turno asignado
+		sistema.asignarTurno(F.dniArwen);
+		try {
+			sistema.agregarMesa(F.general, F.dniArwen);
+		} catch (Exception e) {
+			// Si llego aca, el programa cumple el irep
+			assertNotNull(e);
+		}
+		
+		// Si ya es presidente de otra mesa
+		sistema.agregarMesa(F.mayor65, F.dniEowyn);
+		
+		try {
+			sistema.agregarMesa(F.enfPreexistente, F.dniEowyn);
+		} catch (Exception e) {
+			// Si llego aca, el programa cumple el irep
+			assertNotNull(e);
+		}
+		
+	}
+	
 	
 	private List<Integer> generarNDnis(Integer n) {
 		List<Integer> dnis = new ArrayList<Integer>();
