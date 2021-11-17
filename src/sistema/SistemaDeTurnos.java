@@ -42,30 +42,8 @@ public class SistemaDeTurnos {
 		if (!(posiblePresiMesa.consultarTurno() == null)) {
 			throw new RuntimeException("El presidente de mesa ya esta asignado a una mesa");
 		}
-
-		if (tipoMesa.equals("Trabajador")) {
-			MesaGenerica mesaNueva = new MesaTrabajador(posiblePresiMesa);
-			mesas.add(mesaNueva);
-			return mesaNueva.mostrarNumeroMesa();
-
-		} else if (tipoMesa.equals("Mayor65")) {
-			MesaGenerica mesaNueva = new MesaMayor65(posiblePresiMesa);
-			mesas.add(mesaNueva);
-			return mesaNueva.mostrarNumeroMesa();
-
-		} else if (tipoMesa.equals("Enf_Preex")) {
-			MesaGenerica mesaNueva = new MesaEnfPreex(posiblePresiMesa);
-			mesas.add(mesaNueva);
-			return mesaNueva.mostrarNumeroMesa();
-
-		} else if (tipoMesa.equals("General")) {
-			MesaGenerica mesaNueva = new MesaGeneral(posiblePresiMesa);
-			mesas.add(mesaNueva);
-			return mesaNueva.mostrarNumeroMesa();
-
-		} else {
-			throw new RuntimeException("Tipo de mesa invalida");
-		}
+		
+		return MesaGenerica.agregarMesaSegunTipo(tipoMesa, posiblePresiMesa, mesas);
 	}
 
 	public Tupla<Integer, Integer> asignarTurnos(int dni) {
@@ -80,50 +58,17 @@ public class SistemaDeTurnos {
 			return new Tupla<Integer, Integer>(t.mostrarNumMesaTurno(), t.mostrarFranjaTurno());
 		}
 		// Si no tiene turno, le asigno uno disponible
+		Turno turno = null;
 		for (MesaGenerica mesa : mesas) {
-			if (v.consultarEsTrabajador()) {
-				if (mesa.consultarTipoMesa().equals("Trabajador") && mesa.consultarTurnosTotalesFranjas() > 0) {
-					// Obtengo la primera franja con disponibilidad
-					FranjaHoraria franjaDisponible = mesa.franjaConDisponibilidad();
-					// Creo el turno y se lo asigno al votante
-					v.crearTurno(mesa, franjaDisponible);
-					// Lo asigno a la franja
-					mesa.asignarVotanteAFranjaHoraria(franjaDisponible.consultarFranja(), v);
-					// Devuelvo el turno
-					Turno turnoNuevo = v.consultarTurno();
-					return new Tupla<Integer, Integer>(turnoNuevo.mostrarNumMesaTurno(),
-							turnoNuevo.mostrarFranjaTurno());
-				}
-			} else if (v.consultarEsMayor() || v.consultarTieneEnfPreex()) {
-				if ((mesa.consultarTipoMesa().equals("Mayor65") || mesa.consultarTipoMesa().equals("Enf_Preex"))
-						&& mesa.consultarTurnosTotalesFranjas() > 0) {
-					// Obtengo la primera franja con disponibilidad
-					FranjaHoraria franjaDisponible = mesa.franjaConDisponibilidad();
-					// Creo el turno y se lo asigno al votante
-					v.crearTurno(mesa, franjaDisponible);
-					// Lo asigno a la franja
-					mesa.asignarVotanteAFranjaHoraria(franjaDisponible.consultarFranja(), v);
-					// Devuelvo el turno
-					Turno turnoNuevo = v.consultarTurno();
-					return new Tupla<Integer, Integer>(turnoNuevo.mostrarNumMesaTurno(),
-							turnoNuevo.mostrarFranjaTurno());
-				}
-			} else {
-				if (mesa.consultarTipoMesa().equals("General") && mesa.consultarTurnosTotalesFranjas() > 0) {
-					// Obtengo la primera franja con disponibilidad
-					FranjaHoraria franjaDisponible = mesa.franjaConDisponibilidad();
-					// Creo el turno y se lo asigno al votante
-					v.crearTurno(mesa, franjaDisponible);
-					// Lo asigno a la franja
-					mesa.asignarVotanteAFranjaHoraria(franjaDisponible.consultarFranja(), v);
-					// Devuelvo el turno
-					Turno turnoNuevo = v.consultarTurno();
-					return new Tupla<Integer, Integer>(turnoNuevo.mostrarNumMesaTurno(),
-							turnoNuevo.mostrarFranjaTurno());
-				}
-			}
+			turno = MesaGenerica.asignaVotanteAMesa(v, mesa);
 		}
-		return null;
+		
+		if(turno == null) {
+			return null;
+		}
+		
+		return new Tupla<Integer, Integer>(turno.mostrarNumMesaTurno(),
+				turno.mostrarFranjaTurno());
 	}
 
 	public int asignarTurnos() {
@@ -230,13 +175,7 @@ public class SistemaDeTurnos {
 			throw new RuntimeException("Tipo de mesa invalida");
 		}
 
-		int votantesConTurno = 0;
-		for (MesaGenerica mesa : mesas) {
-			if (mesa.consultarTipoMesa().equals(tipoMesa)) {
-				votantesConTurno += mesa.votantesTodasLasFranjas().size();
-			}
-		}
-		return votantesConTurno;
+		return MesaGenerica.cantVotantesConTurno(tipoMesa, mesas);
 	}
 
 	public boolean verificarMesaEnSistema(int numMesa) {
@@ -267,38 +206,7 @@ public class SistemaDeTurnos {
 	}
 
 	public List<Tupla<String, Integer>> sinTurnoSegunTipoMesa() {
-		List<Tupla<String, Integer>> listaTiposMesa = new LinkedList<Tupla<String, Integer>>();
-
-		int contadorTrabajador = 0;
-		int contadorGeneral = 0;
-		int contadorEnf_Preex = 0;
-		int contadorMayor65 = 0;
-
-		// Recorro por valor el registro de votantes registrados
-		for (Votante v : votantesRegistrados.values()) {
-			if (v.consultarTurno() == null) {
-				// Verifico a que tipo de mesa corresponde que sea asignado el votante
-				if (v.consultarEsTrabajador()) {
-					contadorTrabajador++;
-				} else if (v.consultarEsMayor() && !v.consultarTieneEnfPreex()) {
-					contadorMayor65++;
-				} else if (!v.consultarEsMayor() && v.consultarTieneEnfPreex()) {
-					contadorEnf_Preex++;
-				} else if (v.consultarEsMayor() && v.consultarTieneEnfPreex()) {
-					contadorEnf_Preex++;
-					contadorMayor65++;
-				} else {
-					contadorGeneral++;
-				}
-			}
-		}
-		// Sumamos las tuplas de cada tipo de mesa a la lista.
-		listaTiposMesa.add(new Tupla<String, Integer>("Trabajador", contadorTrabajador));
-		listaTiposMesa.add(new Tupla<String, Integer>("General", contadorGeneral));
-		listaTiposMesa.add(new Tupla<String, Integer>("Enf_Preex", contadorEnf_Preex));
-		listaTiposMesa.add(new Tupla<String, Integer>("Mayor65", contadorMayor65));
-
-		return listaTiposMesa;
+		return MesaGenerica.cantVotantesSinTurnoPorTipoMesa(votantesRegistrados);
 	}
 
 	public List<Tupla<Integer, Tupla<Integer, Integer>>> mostrarTurnosVotantes() {
