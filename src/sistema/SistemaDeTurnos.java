@@ -6,13 +6,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class Sistema {
+public class SistemaDeTurnos {
 
 	private String nombreSistema;
 	private HashMap<Integer, Votante> votantesRegistrados;
 	private LinkedList<MesaGenerica> mesas;
 
-	public Sistema(String nombreSistema) {
+	public SistemaDeTurnos(String nombreSistema) {
 		super();
 
 		if (nombreSistema.equals(null)) {
@@ -68,7 +68,7 @@ public class Sistema {
 		}
 	}
 
-	public Tupla<Integer, Integer> asignarTurno(int dni) {
+	public Tupla<Integer, Integer> asignarTurnos(int dni) {
 		if (!verificarVotanteEnSistema(dni)) {
 			throw new RuntimeException("El votante no esta registrado");
 		}
@@ -126,7 +126,7 @@ public class Sistema {
 		return null;
 	}
 
-	public int asignarTurno() {
+	public int asignarTurnos() {
 		int cantidadTurnosAsignados = 0;
 		boolean turnoAsignado;
 		for (Votante v : votantesRegistrados.values()) {
@@ -193,7 +193,7 @@ public class Sistema {
 		return -1;
 	}
 
-	public Tupla<Integer, Integer> consultarTurno(int dni) {
+	public Tupla<Integer, Integer> consultaTurno(int dni) {
 		if (!verificarVotanteEnSistema(dni)) {
 			throw new RuntimeException("El votante no esta registrado");
 		}

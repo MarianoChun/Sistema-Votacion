@@ -1,4 +1,4 @@
-package tp2021c2votacion;
+package sistema;
 
 public class Fixture {
 	

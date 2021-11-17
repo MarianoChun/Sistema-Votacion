@@ -1,4 +1,4 @@
-package tp2021c2votacion;
+package sistema;
 
 
 import java.util.List;

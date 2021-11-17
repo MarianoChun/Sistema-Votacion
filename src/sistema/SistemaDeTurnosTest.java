@@ -1,4 +1,4 @@
-package tp2021c2votacion;
+package sistema;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -220,7 +220,7 @@ public class SistemaDeTurnosTest {
 		sistema.agregarMesa(F.general, F.dniGaladriel);
 		
 		// <NumeroMesa, FranjaHoraria>
-		final Tupla<Integer, Integer> turno = sistema.asignarTurno(F.dniFrodo);
+		final Tupla<Integer, Integer> turno = sistema.asignarTurnos(F.dniFrodo);
 		// <NumeroMesa, FranjaHoraria>
 		final Tupla<Integer, Integer> turnoAsignado = sistema.consultaTurno(F.dniFrodo);
 		
@@ -236,7 +236,7 @@ public class SistemaDeTurnosTest {
 	public void asignarTurnoDniInvalidoTest() {
 		sistema.agregarMesa(F.general, F.dniGaladriel);
 		try {
-			sistema.asignarTurno(F.dniSinRegistrar);
+			sistema.asignarTurnos(F.dniSinRegistrar);
 			//Si llego hasta aca esta mal! deberia haber fallado
 			assertTrue(false);
 		}catch(Exception e) {
@@ -250,7 +250,7 @@ public class SistemaDeTurnosTest {
 	 */
 	@Test
 	public void asignarTurnoInvalidoTest() {
-		assertNull(sistema.asignarTurno(F.dniFrodo));
+		assertNull(sistema.asignarTurnos(F.dniFrodo));
 	}
 	
 	/*
@@ -261,7 +261,7 @@ public class SistemaDeTurnosTest {
 	public void votarTest() {
 		sistema.agregarMesa(F.general, F.dniGaladriel);
 		
-		sistema.asignarTurno(F.dniFrodo);
+		sistema.asignarTurnos(F.dniFrodo);
 		//Pudo votar
 		Boolean voto = sistema.votar(F.dniFrodo);
 		assertTrue(voto);

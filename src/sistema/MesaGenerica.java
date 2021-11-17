@@ -76,6 +76,17 @@ public abstract class MesaGenerica {
 
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		//result = prime * result + cupo;
+		//result = prime * result + ((franjasHorarias == null) ? 0 : franjasHorarias.hashCode());
+		result = prime * result + ((presidenteMesa == null) ? 0 : presidenteMesa.hashCode());
+		result = prime * result + ((tipoMesa == null) ? 0 : tipoMesa.hashCode());
+		return result;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 
 		if (obj == null)
