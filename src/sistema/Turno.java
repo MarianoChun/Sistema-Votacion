@@ -8,25 +8,23 @@ import java.util.*;
  */
 public class Turno {
 
-    private MesaGenerica mesa;
-    private FranjaHoraria franjaHoraria;
+    private int numMesa;
+    private int franja;
     /**
      * Default constructor
      */
-    public Turno(MesaGenerica mesa, FranjaHoraria franjaHoraria) {
-    	this.mesa = mesa;
-    	this.franjaHoraria = franjaHoraria;
+    public Turno(int numMesa, int franja) {
+    	this.numMesa = numMesa;
+    	this.franja = franja;
     }
 
 
     public int mostrarNumMesaTurno() {
-        // TODO implement here
-        return mesa.mostrarNumeroMesa();
+        return numMesa;
     }
 
     public int mostrarFranjaTurno() {
-        // TODO implement here
-        return franjaHoraria.consultarFranja();
+    	return franja;
     }
 
 }

@@ -68,7 +68,7 @@ public class Votante {
 			throw new RuntimeException("No se puede asignar un turno si ya hay uno asignado");
 		}
 		
-		turno = new Turno(mesa,franjaHoraria);
+		turno = new Turno(mesa.mostrarNumeroMesa(),franjaHoraria.consultarFranja());
 	}
 
 	@Override
