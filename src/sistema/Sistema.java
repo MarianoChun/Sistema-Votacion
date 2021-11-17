@@ -343,44 +343,6 @@ public class Sistema {
 	public static void main(String[] args) {
 		// TODO Auto-generated method st
 
-		Votante v = new Votante(1, "h", 18, true, true);
-		MesaGenerica m = new MesaTrabajador(v);
-		System.out.println(m.consultarCupo());
-		System.out.println(m.consultarTipoMesa());
-		System.out.println("Numero mesa " + m.mostrarNumeroMesa());
-		System.out.println(m.mostrarNombrePresidenteMesa());
-
-		Votante v2 = new Votante(10, "hola", 18, true, true);
-
-		System.out.println(m.votantesTodasLasFranjas());
-
-		Votante v1 = new Votante(1, "h", 18, true, true);
-		MesaGenerica mGeneral = new MesaGeneral(v1);
-		mGeneral.asignarVotanteAFranjaHoraria(11, v1);
-		// mGeneral.asignarVotanteAFranjaHoraria(12, v1);
-		System.out.println("Numero mesa " + mGeneral.mostrarNumeroMesa());
-		System.out.println(mGeneral.mostrarFranjasHorarias());
-		System.out.println(mGeneral.consultarTurnosTotalesFranjas());
-
-		// MesaGeneral mGeneral1 = new MesaGeneral(v1);
-		// System.out.println("Numero mesa " + mGeneral1.mostrarNumeroMesa());
-
-		///////////////////
-		Sistema s = new Sistema("Hola");
-		/*
-		 * Votante sinT1 = new Votante(10,"pepe",18,false,true); Votante sinT2 = new
-		 * Votante(15,"zapo",28,true,true); Votante sinT3 = new
-		 * Votante(16,"tito",60,true,true);
-		 */
-
-		s.registrarVotante(30, "Hernan", 20, false, false);
-		s.registrarVotante(40, "Jairo", 32, true, false);
-		s.registrarVotante(50, "Lele", 80, false, true);
-
-		s.agregarMesa("Trabajador", 50);
-		List<Tupla<String, Integer>> votantesSinTurno = s.sinTurnoSegunTipoMesa();
-		System.out.println(votantesSinTurno);
-		System.out.println(s.toString());
 		
 	}
 

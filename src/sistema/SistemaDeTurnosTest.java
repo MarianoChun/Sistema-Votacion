@@ -1,4 +1,4 @@
-package sistema;
+package tp2021c2votacion;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -19,12 +19,12 @@ import org.junit.Test;
 
 
 public class SistemaDeTurnosTest {
-	private Sistema sistema;
+	private SistemaDeTurnos sistema;
 	private static final Fixture F = Fixture.INSTANCE;
 	
 	@Before
 	public void setUp() {
-		sistema = new Sistema("Sede UNGS");
+		sistema = new SistemaDeTurnos("Sede UNGS");
 				
 		sistema.registrarVotante(
 				F.dniFrodo, 
@@ -105,10 +105,10 @@ public class SistemaDeTurnosTest {
 		assertNotNull(numMesaGeneral);
 		assertNotNull(numMesaTrabajador);
 		
-		assertNotNull(sistema.consultarTurno(F.dniFrodo));
-		assertNotNull(sistema.consultarTurno(F.dniBilbo));
-		assertNotNull(sistema.consultarTurno(F.dniGaladriel));
-		assertNotNull(sistema.consultarTurno(F.dniGandalf));
+		assertNotNull(sistema.consultaTurno(F.dniFrodo));
+		assertNotNull(sistema.consultaTurno(F.dniBilbo));
+		assertNotNull(sistema.consultaTurno(F.dniGaladriel));
+		assertNotNull(sistema.consultaTurno(F.dniGandalf));
 	}
 	
 	/*
@@ -160,7 +160,7 @@ public class SistemaDeTurnosTest {
 		
 		sistema.agregarMesa(F.trabajador, F.dniGandalf);
 		
-		assertEquals(votantesEsperados, sistema.asignarTurno());
+		assertEquals(votantesEsperados, sistema.asignarTurnos());
 	}
 	
 	/*
@@ -174,7 +174,7 @@ public class SistemaDeTurnosTest {
 		final Integer numMesaTrabajadores = sistema.
 				agregarMesa(F.trabajador, F.dniBilbo);
 		
-		sistema.asignarTurno();
+		sistema.asignarTurnos();
 		
 		//Franja -> List<Dni>
 		final Map<Integer, List<Integer>> franjaHoraria = sistema.asignadosAMesa(numMesaTrabajadores);
@@ -199,7 +199,7 @@ public class SistemaDeTurnosTest {
 		sistema.agregarMesa(F.enfPreexistente, F.dniEowyn);
 		sistema.agregarMesa(F.mayor65, F.dniBilbo);
 		
-		sistema.asignarTurno();
+		sistema.asignarTurnos();
 		
 		// List<Tupla<TipoMesa, Cant Votantes Sin Turno>>
 		final List<Tupla<String, Integer>> votantesSinTurno = sistema.sinTurnoSegunTipoMesa();
@@ -222,7 +222,7 @@ public class SistemaDeTurnosTest {
 		// <NumeroMesa, FranjaHoraria>
 		final Tupla<Integer, Integer> turno = sistema.asignarTurno(F.dniFrodo);
 		// <NumeroMesa, FranjaHoraria>
-		final Tupla<Integer, Integer> turnoAsignado = sistema.consultarTurno(F.dniFrodo);
+		final Tupla<Integer, Integer> turnoAsignado = sistema.consultaTurno(F.dniFrodo);
 		
 		assertNotNull(turno);
 		assertNotNull(turnoAsignado);
@@ -294,7 +294,7 @@ public class SistemaDeTurnosTest {
 					, !F.trabaja);
 		}
 		
-		sistema.asignarTurno();
+		sistema.asignarTurnos();
 		
 		// FranjaHoraria -> List<Dni>
 		final Map<Integer,List<Integer>> asignadosXFranjaHoraria = 
@@ -308,33 +308,6 @@ public class SistemaDeTurnosTest {
 		
 	
 	}
-	/*
-	 * Asigna un presidente ya asignado a una mesa, esto deberia no poder hacerse
-	 */
-	@Test
-	public void asignacionMesaDniYaAsignado() {
-		
-		// Si ya tiene un turno asignado
-		sistema.asignarTurno(F.dniArwen);
-		try {
-			sistema.agregarMesa(F.general, F.dniArwen);
-		} catch (Exception e) {
-			// Si llego aca, el programa cumple el irep
-			assertNotNull(e);
-		}
-		
-		// Si ya es presidente de otra mesa
-		sistema.agregarMesa(F.mayor65, F.dniEowyn);
-		
-		try {
-			sistema.agregarMesa(F.enfPreexistente, F.dniEowyn);
-		} catch (Exception e) {
-			// Si llego aca, el programa cumple el irep
-			assertNotNull(e);
-		}
-		
-	}
-	
 	
 	private List<Integer> generarNDnis(Integer n) {
 		List<Integer> dnis = new ArrayList<Integer>();

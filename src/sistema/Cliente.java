@@ -1,4 +1,4 @@
-package sistema;
+package tp2021c2votacion;
 
 
 import java.util.List;
@@ -10,7 +10,7 @@ public class Cliente {
 	
 	public static void main(String[] args) {
 		
-		Sistema sistema = new Sistema("Sistema");
+		SistemaDeTurnos sistema = new SistemaDeTurnos("Sistema");
 				
 		sistema.registrarVotante(
 				F.dniFrodo, 
@@ -83,10 +83,10 @@ public class Cliente {
 	
 		// hacer el toString de tupla!
 		System.out.println("Turnos generados [Paso 1]: "); 
-		System.out.println("\t- " + sistema.consultarTurno(F.dniFrodo));
-		System.out.println("\t- " + sistema.consultarTurno(F.dniBilbo));
-		System.out.println("\t- " + sistema.consultarTurno(F.dniGaladriel));
-		System.out.println("\t- " + sistema.consultarTurno(F.dniGandalf));
+		System.out.println("\t- " + sistema.consultaTurno(F.dniFrodo));
+		System.out.println("\t- " + sistema.consultaTurno(F.dniBilbo));
+		System.out.println("\t- " + sistema.consultaTurno(F.dniGaladriel));
+		System.out.println("\t- " + sistema.consultaTurno(F.dniGandalf));
 
 		System.out.println("\n======================================================"); 
 		System.out.println("Estado Sistema De Turnos: ");
@@ -101,7 +101,7 @@ public class Cliente {
 		sistema.registrarVotante(4, "Nombre4", 30, false, true);
 			
 		
-		sistema.asignarTurno();
+		sistema.asignarTurnos();
 		
 
 		// List<Tupla<TipoMesa, Cant Votantes Sin Turno>>
