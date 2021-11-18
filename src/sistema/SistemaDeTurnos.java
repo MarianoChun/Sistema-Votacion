@@ -50,7 +50,6 @@ public class SistemaDeTurnos {
 		if (!verificarVotanteEnSistema(dni)) {
 			throw new RuntimeException("El votante no esta registrado");
 		}
-
 		Votante v = votantesRegistrados.get(dni);
 		// Si tiene turno, lo devuelvo
 		if (!(v.consultarTurno() == null)) {
@@ -59,10 +58,14 @@ public class SistemaDeTurnos {
 		}
 		// Si no tiene turno, le asigno uno disponible
 		Turno turno = null;
+		
 		for (MesaGenerica mesa : mesas) {
 			turno = MesaGenerica.asignaVotanteAMesa(v, mesa);
+			if(turno != null) {
+				break;
+			}
 		}
-		
+			
 		if(turno == null) {
 			return null;
 		}
@@ -73,49 +76,14 @@ public class SistemaDeTurnos {
 
 	public int asignarTurnos() {
 		int cantidadTurnosAsignados = 0;
-		boolean turnoAsignado;
+		Turno turno;
 		for (Votante v : votantesRegistrados.values()) {
-			turnoAsignado = false;
 			if (v.consultarTurno() == null) { // Si no tiene turno, le asigno uno
 				for (MesaGenerica mesa : mesas) {
-					if (v.consultarEsTrabajador() && !turnoAsignado) {
-						if (mesa.consultarTipoMesa().equals("Trabajador") && mesa.consultarTurnosTotalesFranjas() > 0) {
-							// Obtengo la primera franja con disponibilidad
-							FranjaHoraria franjaDisponible = mesa.franjaConDisponibilidad();
-							// Creo el turno y se lo asigno al votante
-							v.crearTurno(mesa, franjaDisponible);
-							// Lo asigno a la franja
-							mesa.asignarVotanteAFranjaHoraria(franjaDisponible.consultarFranja(), v);
-							cantidadTurnosAsignados++;
-							turnoAsignado = true;
-
-						}
-					} else if (!v.consultarEsTrabajador() && (v.consultarEsMayor() || v.consultarTieneEnfPreex())
-							&& !turnoAsignado) {
-
-						if ((mesa.consultarTipoMesa().equals("Mayor65") || mesa.consultarTipoMesa().equals("Enf_Preex"))
-								&& mesa.consultarTurnosTotalesFranjas() > 0) {
-							// Obtengo la primera franja con disponibilidad
-							FranjaHoraria franjaDisponible = mesa.franjaConDisponibilidad();
-							// Creo el turno y se lo asigno al votante
-							v.crearTurno(mesa, franjaDisponible);
-							// Lo asigno a la franja
-							mesa.asignarVotanteAFranjaHoraria(franjaDisponible.consultarFranja(), v);
-							cantidadTurnosAsignados++;
-							turnoAsignado = true;
-						}
-					} else if (!v.consultarEsTrabajador() && !v.consultarEsMayor() && !v.consultarTieneEnfPreex()) {
-						if (mesa.consultarTipoMesa().equals("General") && mesa.consultarTurnosTotalesFranjas() > 0
-								&& !turnoAsignado) {
-							// Obtengo la primera franja con disponibilidad
-							FranjaHoraria franjaDisponible = mesa.franjaConDisponibilidad();
-							// Creo el turno y se lo asigno al votante
-							v.crearTurno(mesa, franjaDisponible);
-							// Lo asigno a la franja
-							mesa.asignarVotanteAFranjaHoraria(franjaDisponible.consultarFranja(), v);
-							cantidadTurnosAsignados++;
-							turnoAsignado = true;
-						}
+					turno = MesaGenerica.asignaVotanteAMesa(v, mesa);
+					if(turno != null) {
+						cantidadTurnosAsignados++;
+						break;
 					}
 				}
 			}

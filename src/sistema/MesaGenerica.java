@@ -187,6 +187,7 @@ public abstract class MesaGenerica {
 		int result = 1;
 		//result = prime * result + cupo;
 		//result = prime * result + ((franjasHorarias == null) ? 0 : franjasHorarias.hashCode());
+		result = prime + numeroMesa;
 		result = prime * result + ((presidenteMesa == null) ? 0 : presidenteMesa.hashCode());
 		result = prime * result + ((tipoMesa == null) ? 0 : tipoMesa.hashCode());
 		return result;
