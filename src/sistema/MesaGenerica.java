@@ -128,42 +128,41 @@ public abstract class MesaGenerica {
     }
     
     public static Turno asignaVotanteAMesa(Votante votante, MesaGenerica mesa){
+    	boolean mesaDisponible = false;
     	// Si pude asignar el turno, lo devuelvo, sino devuelvo null
     	if (votante.consultarEsTrabajador()) {
-			if (mesa.consultarTipoMesa().equals("Trabajador") && mesa.consultarTurnosTotalesFranjas() > 0) {
-				// Obtengo la primera franja con disponibilidad
-				FranjaHoraria franjaDisponible = mesa.franjaConDisponibilidad();
-				// Creo el turno y se lo asigno al votante
-				votante.crearTurno(mesa, franjaDisponible);
-				// Lo asigno a la franja
-				mesa.asignarVotanteAFranjaHoraria(franjaDisponible.consultarFranja(), votante);
-				// Devuelvo el turno
-				return votante.consultarTurno();
+    		if(mesa.consultarTipoMesa().equals("Trabajador") && mesa.consultarTurnosTotalesFranjas() > 0) {
+    			mesaDisponible = true;
+    		}
+		} else if(votante.consultarEsMayor() && !votante.consultarTieneEnfPreex()) {
+			if(mesa.consultarTipoMesa().equals("Mayor65") && mesa.consultarTurnosTotalesFranjas() > 0) {
+				mesaDisponible = true;
 			}
-		} else if (votante.consultarEsMayor() || votante.consultarTieneEnfPreex()) {
+		} else if(!votante.consultarEsMayor() && votante.consultarTieneEnfPreex()) {
+			if(mesa.consultarTipoMesa().equals("Enf_Preex") && mesa.consultarTurnosTotalesFranjas() > 0) {
+				mesaDisponible = true;
+			}
+		} else if (votante.consultarEsMayor() && votante.consultarTieneEnfPreex()) { 
 			if ((mesa.consultarTipoMesa().equals("Mayor65") || mesa.consultarTipoMesa().equals("Enf_Preex"))
-					&& mesa.consultarTurnosTotalesFranjas() > 0) {
-				// Obtengo la primera franja con disponibilidad
-				FranjaHoraria franjaDisponible = mesa.franjaConDisponibilidad();
-				// Creo el turno y se lo asigno al votante
-				votante.crearTurno(mesa, franjaDisponible);
-				// Lo asigno a la franja
-				mesa.asignarVotanteAFranjaHoraria(franjaDisponible.consultarFranja(), votante);
-				// Devuelvo el turno
-				return votante.consultarTurno();
+				&& mesa.consultarTurnosTotalesFranjas() > 0) {
+				mesaDisponible = true;
 			}
 		} else {
 			if (mesa.consultarTipoMesa().equals("General") && mesa.consultarTurnosTotalesFranjas() > 0) {
-				// Obtengo la primera franja con disponibilidad
-				FranjaHoraria franjaDisponible = mesa.franjaConDisponibilidad();
-				// Creo el turno y se lo asigno al votante
-				votante.crearTurno(mesa, franjaDisponible);
-				// Lo asigno a la franja
-				mesa.asignarVotanteAFranjaHoraria(franjaDisponible.consultarFranja(), votante);
-				// Devuelvo el turno
-				return votante.consultarTurno();
+				mesaDisponible = true;
 			}
 		}
+    	
+    	if(mesaDisponible) {
+    		// Obtengo la primera franja con disponibilidad
+			FranjaHoraria franjaDisponible = mesa.franjaConDisponibilidad();
+			// Creo el turno y se lo asigno al votante
+			votante.crearTurno(mesa, franjaDisponible);
+			// Lo asigno a la franja
+			mesa.asignarVotanteAFranjaHoraria(franjaDisponible.consultarFranja(), votante);
+			// Devuelvo el turno
+			return votante.consultarTurno();
+    	}
     	
     	return null;	
 
