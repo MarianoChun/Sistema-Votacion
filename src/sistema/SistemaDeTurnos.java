@@ -47,7 +47,9 @@ public class SistemaDeTurnos {
 			throw new RuntimeException("El presidente de mesa ya esta asignado a una mesa");
 		}
 		
-		return MesaGenerica.agregarMesaSegunTipo(tipoMesa, posiblePresiMesa, mesas);
+		MesaGenerica mesaNueva = MesaGenerica.validarMesaSegunTipo(tipoMesa, posiblePresiMesa);
+		mesas.add(mesaNueva);
+		return mesaNueva.mostrarNumeroMesa();
 	}
 
 	public Tupla<Integer, Integer> asignarTurnos(int dni) {
@@ -182,7 +184,39 @@ public class SistemaDeTurnos {
 	}
 
 	public List<Tupla<String, Integer>> sinTurnoSegunTipoMesa() {
-		return MesaGenerica.cantVotantesSinTurnoPorTipoMesa(votantesRegistrados);
+		// Posible IREP? ver que no nos ingresen una listaVotantes erronea
+    	List<Tupla<String, Integer>> listaTiposMesa = new LinkedList<Tupla<String, Integer>>();
+
+		int contadorTrabajador = 0;
+		int contadorGeneral = 0;
+		int contadorEnf_Preex = 0;
+		int contadorMayor65 = 0;
+
+		// Recorro por valor el registro de votantes registrados
+		for (Votante v : votantesRegistrados.values()) {
+			if (v.consultarTurno() == null) {
+				// Verifico a que tipo de mesa corresponde que sea asignado el votante
+				if (v.consultarEsTrabajador()) {
+					contadorTrabajador++;
+				} else if (v.consultarEsMayor() && !v.consultarTieneEnfPreex()) {
+					contadorMayor65++;
+				} else if (!v.consultarEsMayor() && v.consultarTieneEnfPreex()) {
+					contadorEnf_Preex++;
+				} else if (v.consultarEsMayor() && v.consultarTieneEnfPreex()) {
+					contadorEnf_Preex++;
+					contadorMayor65++;
+				} else {
+					contadorGeneral++;
+				}
+			}
+		}
+		// Sumamos las tuplas de cada tipo de mesa a la lista.
+		listaTiposMesa.add(new Tupla<String, Integer>("Trabajador", contadorTrabajador));
+		listaTiposMesa.add(new Tupla<String, Integer>("General", contadorGeneral));
+		listaTiposMesa.add(new Tupla<String, Integer>("Enf_Preex", contadorEnf_Preex));
+		listaTiposMesa.add(new Tupla<String, Integer>("Mayor65", contadorMayor65));
+
+		return listaTiposMesa;
 	}
 
 	public List<Tupla<Integer, Tupla<Integer, Integer>>> mostrarTurnosVotantes() {

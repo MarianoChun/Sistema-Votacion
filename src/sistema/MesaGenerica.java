@@ -61,12 +61,12 @@ public abstract class MesaGenerica {
         return presidenteMesa.consultarNombre();
     }
 
-    public static int agregarMesaSegunTipo(String tipoMesa, Votante presidenteMesa, LinkedList<MesaGenerica> listaMesas) {
+    // Si la mesa es valida, la crea asignandole su presidente de mesa y la devuelve
+    public static MesaGenerica validarMesaSegunTipo(String tipoMesa, Votante presidenteMesa) {
     	if(presidenteMesa == null) {
     		throw new RuntimeException("El presidente de mesa no es valido");
     	}
-    	
-    	
+    		
     	MesaGenerica mesaNueva;  	
     	if (tipoMesa.equals("Trabajador")) {
 			mesaNueva = new MesaTrabajador(presidenteMesa);
@@ -80,8 +80,8 @@ public abstract class MesaGenerica {
 			throw new RuntimeException("Tipo de mesa invalida");
 		}
     	
-    	listaMesas.add(mesaNueva);
-		return mesaNueva.mostrarNumeroMesa();
+    	return mesaNueva;
+
     }
     
     public static int cantVotantesConTurnoDeTipoMesa(String tipoMesa, MesaGenerica mesa) {
@@ -98,43 +98,7 @@ public abstract class MesaGenerica {
 		
 		return votantesConTurno;
     }
-    
-    public static List<Tupla<String, Integer>> cantVotantesSinTurnoPorTipoMesa(HashMap<Integer,Votante> listaVotantes){
-    	// Posible IREP? ver que no nos ingresen una listaVotantes erronea
-    	List<Tupla<String, Integer>> listaTiposMesa = new LinkedList<Tupla<String, Integer>>();
-
-		int contadorTrabajador = 0;
-		int contadorGeneral = 0;
-		int contadorEnf_Preex = 0;
-		int contadorMayor65 = 0;
-
-		// Recorro por valor el registro de votantes registrados
-		for (Votante v : listaVotantes.values()) {
-			if (v.consultarTurno() == null) {
-				// Verifico a que tipo de mesa corresponde que sea asignado el votante
-				if (v.consultarEsTrabajador()) {
-					contadorTrabajador++;
-				} else if (v.consultarEsMayor() && !v.consultarTieneEnfPreex()) {
-					contadorMayor65++;
-				} else if (!v.consultarEsMayor() && v.consultarTieneEnfPreex()) {
-					contadorEnf_Preex++;
-				} else if (v.consultarEsMayor() && v.consultarTieneEnfPreex()) {
-					contadorEnf_Preex++;
-					contadorMayor65++;
-				} else {
-					contadorGeneral++;
-				}
-			}
-		}
-		// Sumamos las tuplas de cada tipo de mesa a la lista.
-		listaTiposMesa.add(new Tupla<String, Integer>("Trabajador", contadorTrabajador));
-		listaTiposMesa.add(new Tupla<String, Integer>("General", contadorGeneral));
-		listaTiposMesa.add(new Tupla<String, Integer>("Enf_Preex", contadorEnf_Preex));
-		listaTiposMesa.add(new Tupla<String, Integer>("Mayor65", contadorMayor65));
-
-		return listaTiposMesa;
-    }
-    
+     
     public static Turno asignaVotanteAMesa(Votante votante, MesaGenerica mesa){
     	boolean mesaDisponible = false;
     	// Si pude asignar el turno, lo devuelvo, sino devuelvo null
