@@ -8,10 +8,9 @@ import java.util.*;
  */
 public abstract class MesaGenerica {
 	
-    private static int numeroMesa = 0;
-    private ArrayList<FranjaHoraria> franjasHorarias;
+    private static int incrementoNumMesa = 0;
+    private int numeroMesa;
     private Votante presidenteMesa;
-    private int cupo;
     private String tipoMesa;
     
     /**
@@ -19,9 +18,9 @@ public abstract class MesaGenerica {
      */
     
     public MesaGenerica(Votante presidenteMesa , String tipoMesa) {
-    	MesaGenerica.numeroMesa += 1;
+    	incrementoNumMesa += 1;
+    	this.numeroMesa = incrementoNumMesa;
     	this.presidenteMesa = presidenteMesa;
-    	this.franjasHorarias = new ArrayList<FranjaHoraria>();
     	this.tipoMesa = tipoMesa;
     }
 
@@ -63,8 +62,12 @@ public abstract class MesaGenerica {
     }
 
     public static int agregarMesaSegunTipo(String tipoMesa, Votante presidenteMesa, LinkedList<MesaGenerica> listaMesas) {
-    	MesaGenerica mesaNueva;
+    	if(presidenteMesa == null) {
+    		throw new RuntimeException("El presidente de mesa no es valido");
+    	}
     	
+    	
+    	MesaGenerica mesaNueva;  	
     	if (tipoMesa.equals("Trabajador")) {
 			mesaNueva = new MesaTrabajador(presidenteMesa);
 		} else if (tipoMesa.equals("Mayor65")) {
@@ -82,6 +85,13 @@ public abstract class MesaGenerica {
     }
     
     public static int cantVotantesConTurno(String tipoMesa, LinkedList<MesaGenerica> listaMesas) {
+    	if(listaMesas.size() == 0) {
+    		throw new RuntimeException("Ingrese una lista de mesas no vacia");
+    	}
+		if (!tipoMesa.equals("Mayor65") || !tipoMesa.equals("General") || !tipoMesa.equals("Enf_Preex")
+				|| !tipoMesa.equals("Trabajador")) {
+			throw new RuntimeException("Tipo de mesa invalida");
+		}
     	int votantesConTurno = 0;
 		for (MesaGenerica mesa : listaMesas) {
 			if (mesa.consultarTipoMesa().equals(tipoMesa)) {
@@ -184,8 +194,6 @@ public abstract class MesaGenerica {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		//result = prime * result + cupo;
-		//result = prime * result + ((franjasHorarias == null) ? 0 : franjasHorarias.hashCode());
 		result = prime + numeroMesa;
 		result = prime * result + ((presidenteMesa == null) ? 0 : presidenteMesa.hashCode());
 		result = prime * result + ((tipoMesa == null) ? 0 : tipoMesa.hashCode());
@@ -197,7 +205,7 @@ public abstract class MesaGenerica {
 
 		if (obj == null)
 			return false;
-		if (!(obj instanceof MesaGenerica))
+		if (obj.getClass() != this.getClass())
 			return false;
 		
 		MesaGenerica otraMesa = (MesaGenerica) obj;

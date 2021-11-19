@@ -1,6 +1,6 @@
 package sistema;
 
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,18 +27,22 @@ public class SistemaDeTurnos {
 		if (verificarVotanteEnSistema(dni)) {
 			throw new RuntimeException("El votante ya esta registrado");
 		}
-
+		
 		Votante votanteNuevo = new Votante(dni, nombre, edad, tieneEnfPreex, esTrabajador);
-		votantesRegistrados.put(dni, votanteNuevo);
+		agregarVotanteARegistro(dni,votanteNuevo);
 
 	}
 
+	private void agregarVotanteARegistro(int dni, Votante votante) {
+		votantesRegistrados.put(dni, votante);
+	}
+	
 	public int agregarMesa(String tipoMesa, int dni) {
 		if (!verificarVotanteEnSistema(dni)) {
 			throw new RuntimeException("El presidente de mesa no esta registrado");
 		}
 
-		Votante posiblePresiMesa = votantesRegistrados.get(dni);
+		Votante posiblePresiMesa = obtenerVotante(dni);
 		if (!(posiblePresiMesa.consultarTurno() == null)) {
 			throw new RuntimeException("El presidente de mesa ya esta asignado a una mesa");
 		}
@@ -50,7 +54,7 @@ public class SistemaDeTurnos {
 		if (!verificarVotanteEnSistema(dni)) {
 			throw new RuntimeException("El votante no esta registrado");
 		}
-		Votante v = votantesRegistrados.get(dni);
+		Votante v = obtenerVotante(dni);
 		// Si tiene turno, lo devuelvo
 		if (!(v.consultarTurno() == null)) {
 			Turno t = v.consultarTurno();
@@ -92,18 +96,23 @@ public class SistemaDeTurnos {
 	}
 
 	public boolean verificarVotanteEnSistema(int dni) {
-
 		return votantesRegistrados.containsKey(dni);
 	}
 
+	public Votante obtenerVotante(int dni) {
+		if(!verificarVotanteEnSistema(dni)) {
+			throw new RuntimeException("El votante no se encuentra registrado");
+		}	
+		return votantesRegistrados.get(dni);
+	}
+	
 	public int consultarCantTurnosDisponibles(int numMesa) {
-		for (MesaGenerica mesa : mesas) {
-			if (mesa.mostrarNumeroMesa() == numMesa) {
-				return mesa.consultarTurnosTotalesFranjas();
-			}
+		if(!verificarMesaEnSistema(numMesa)) {
+			throw new RuntimeException("La mesa no existe en el registro de mesas");
 		}
-		// Si no encontro la mesa, devuelvo -1
-		return -1;
+		
+		return buscarMesa(numMesa).consultarTurnosTotalesFranjas();
+
 	}
 
 	public Tupla<Integer, Integer> consultaTurno(int dni) {
@@ -111,7 +120,7 @@ public class SistemaDeTurnos {
 			throw new RuntimeException("El votante no esta registrado");
 		}
 
-		Votante vot = votantesRegistrados.get(dni);
+		Votante vot = obtenerVotante(dni);
 
 		if (!vot.consultarTurno().equals(null)) {
 			Turno t = vot.consultarTurno();
@@ -126,32 +135,26 @@ public class SistemaDeTurnos {
 			throw new RuntimeException("El votante no esta registrado");
 		}
 
-		return votantesRegistrados.get(dni).consultarSiFueAVotar();
+		return obtenerVotante(dni).consultarSiFueAVotar();
 	}
 
 	public boolean votar(int dni) {
 		if (sePresentoVotar(dni)) {
 			return false;
 		}
-		votantesRegistrados.get(dni).votar();
+		obtenerVotante(dni).votar();
 		return true;
 	}
 
 	public int votantesConTurno(String tipoMesa) {
-		if (!tipoMesa.equals("Mayor65") || !tipoMesa.equals("General") || !tipoMesa.equals("Enf_Preex")
-				|| !tipoMesa.equals("Trabajador")) {
-			throw new RuntimeException("Tipo de mesa invalida");
-		}
-
 		return MesaGenerica.cantVotantesConTurno(tipoMesa, mesas);
 	}
 
 	public boolean verificarMesaEnSistema(int numMesa) {
-		for (MesaGenerica mesa : mesas) {
-			if (mesa.mostrarNumeroMesa() == numMesa) {
-				return true;
-			}
+		if(buscarMesa(numMesa) != null) {
+			return true;
 		}
+		
 		return false;
 	}
 
@@ -180,8 +183,8 @@ public class SistemaDeTurnos {
 	public List<Tupla<Integer, Tupla<Integer, Integer>>> mostrarTurnosVotantes() {
 		// Contiene el DNI del votante relacionado y su Turno (numMesa y franja horaria)
 		List<Tupla<Integer, Tupla<Integer, Integer>>> listaVotantesYTurnos = new LinkedList<Tupla<Integer, Tupla<Integer, Integer>>>();
-		for (Votante v : votantesRegistrados.values()) {
-			if (v.consultarTurno() != null) {
+		for (Votante v : votantesRegistrados.values()) { // Recorro los votantes
+			if (v.consultarTurno() != null) { // Si tiene turno, lo agrego a la lista de tuplas. (DNI,<numMesa,Franja>)
 				Turno t = v.consultarTurno();
 				listaVotantesYTurnos.add(new Tupla<Integer, Tupla<Integer, Integer>>(v.consultarDni(),
 						new Tupla<Integer, Integer>(t.mostrarNumMesaTurno(), t.mostrarFranjaTurno())));
@@ -218,8 +221,16 @@ public class SistemaDeTurnos {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method st
-
+		Votante votante1 = new Votante(43858084,"Mariano",20,false,false);
+		Votante votante2 = new Votante(43000000,"Pepe",25,true,false);
+		Votante votante3 = new Votante(50000100,"Marcos",30,true,true);
+		MesaGenerica mesa1 = new MesaTrabajador(votante1);
+		MesaGenerica mesa2 = new MesaTrabajador(votante2);
+		MesaGenerica mesa3 = new MesaTrabajador(votante3);
 		
+		System.out.println(mesa1.mostrarNumeroMesa());
+		System.out.println(mesa2.mostrarNumeroMesa());
+		System.out.println(mesa3.mostrarNumeroMesa());
 	}
 
 }
