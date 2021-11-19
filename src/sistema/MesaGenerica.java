@@ -84,20 +84,18 @@ public abstract class MesaGenerica {
 		return mesaNueva.mostrarNumeroMesa();
     }
     
-    public static int cantVotantesConTurno(String tipoMesa, LinkedList<MesaGenerica> listaMesas) {
-    	if(listaMesas.size() == 0) {
-    		throw new RuntimeException("Ingrese una lista de mesas no vacia");
-    	}
+    public static int cantVotantesConTurnoDeTipoMesa(String tipoMesa, MesaGenerica mesa) {
+    	 
 		if (!tipoMesa.equals("Mayor65") || !tipoMesa.equals("General") || !tipoMesa.equals("Enf_Preex")
 				|| !tipoMesa.equals("Trabajador")) {
 			throw new RuntimeException("Tipo de mesa invalida");
 		}
     	int votantesConTurno = 0;
-		for (MesaGenerica mesa : listaMesas) {
-			if (mesa.consultarTipoMesa().equals(tipoMesa)) {
-				votantesConTurno += mesa.votantesTodasLasFranjas().size();
-			}
+    	// Si el tipo de mesa coincide con el pasado por parametro, devuelvo su cant de votantes
+		if (mesa.consultarTipoMesa().equals(tipoMesa)) {
+			votantesConTurno += mesa.votantesTodasLasFranjas().size();
 		}
+		
 		return votantesConTurno;
     }
     

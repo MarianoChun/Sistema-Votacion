@@ -16,7 +16,7 @@ public class MesaEnfPreex extends MesaGenerica {
     	super(presidenteMesa, "Enf_Preex");
     	
     	for(int franja = 8; franja < 18; franja++) {
-    		franjasHorarias.add(new FranjaHoraria(franja,cupo));
+    		agregarFranjaHoraria(new FranjaHoraria(franja,cupo));
     	}
 
     	// Asigno al presidente de mesa a una franja y le asigno el turno
@@ -24,7 +24,15 @@ public class MesaEnfPreex extends MesaGenerica {
     	asignarVotanteAFranjaHoraria(franja.consultarFranja(),presidenteMesa); 
     	presidenteMesa.crearTurno(this, franja);
     }
-
+    private void agregarFranjaHoraria(FranjaHoraria franjaHoraria) {
+    	if(franjaHoraria == null) {
+    		throw new RuntimeException("Ingrese una franja valida");
+    	}
+    	if(franjasHorarias.size() == 10) {
+    		throw new RuntimeException("No se pueden agregar mas mesas");
+    	}
+    	franjasHorarias.add(franjaHoraria);
+    }
     @Override
     public void asignarVotanteAFranjaHoraria(int franja, Votante votante) {
     	

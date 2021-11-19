@@ -147,7 +147,12 @@ public class SistemaDeTurnos {
 	}
 
 	public int votantesConTurno(String tipoMesa) {
-		return MesaGenerica.cantVotantesConTurno(tipoMesa, mesas);
+		int votantesConTurno = 0;
+		for (MesaGenerica mesa : mesas) {
+			votantesConTurno += MesaGenerica.cantVotantesConTurnoDeTipoMesa(tipoMesa, mesa);
+		}
+		return votantesConTurno;
+
 	}
 
 	public boolean verificarMesaEnSistema(int numMesa) {
