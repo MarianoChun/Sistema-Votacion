@@ -246,6 +246,7 @@ public class SistemaDeTurnos {
 		for (Votante v : votantesRegistrados.values()) {
 			if (v.consultarTurno() != null) {
 				cadena.append(v.toString());
+				cadena.append("\n");
 			}
 
 		}
@@ -253,6 +254,7 @@ public class SistemaDeTurnos {
 		cadena.append("Mesas habilitadas en el sistema\n");
 		for (MesaGenerica m : mesas) {
 			cadena.append(m.toString());
+			cadena.append("\n");
 		}
 
 		return cadena.toString();
