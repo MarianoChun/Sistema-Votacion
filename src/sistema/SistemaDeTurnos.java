@@ -239,39 +239,38 @@ public class SistemaDeTurnos {
 		cadena.append("-------------------------------------\n");
 		cadena.append(nombreSistema);
 		cadena.append("\n-------------------------------------\n");
-		cadena.append("Votantes en espera para un turno (Segun tipo de mesa):\n");
+		cadena.append("Cantidad de votantes en espera para un turno (Segun tipo de mesa):\n");
 		cadena.append(this.sinTurnoSegunTipoMesa());
 		cadena.append("\n-------------------------------------\n");
-		cadena.append("Votantes con turno asignado:\n");
-		for (Votante v : votantesRegistrados.values()) {
-			if (v.consultarTurno() != null) {
-				cadena.append(v.toString());
-				cadena.append("\n");
-			}
-
-		}
+		cadena.append("Votantes con/sin turno asignado:\n");
+		cadena.append(votantesRegistrados.values().toString());
 		cadena.append("\n-------------------------------------\n");
 		cadena.append("Mesas habilitadas en el sistema\n");
-		for (MesaGenerica m : mesas) {
-			cadena.append(m.toString());
-			cadena.append("\n");
-		}
-
+		cadena.append(mesas.toString());
 		return cadena.toString();
 	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method st
+		SistemaDeTurnos sistema = new SistemaDeTurnos("Sistema nuevo");
 		Votante votante1 = new Votante(43858084,"Mariano",20,false,false);
 		Votante votante2 = new Votante(43000000,"Pepe",25,true,false);
 		Votante votante3 = new Votante(50000100,"Marcos",30,true,true);
-		MesaGenerica mesa1 = new MesaTrabajador(votante1);
+		//MesaGenerica mesa1 = new MesaTrabajador(votante1);
 		MesaGenerica mesa2 = new MesaTrabajador(votante2);
 		MesaGenerica mesa3 = new MesaTrabajador(votante3);
 		
-		System.out.println(mesa1.mostrarNumeroMesa());
+		//System.out.println(mesa1.mostrarNumeroMesa());
 		System.out.println(mesa2.mostrarNumeroMesa());
 		System.out.println(mesa3.mostrarNumeroMesa());
+		sistema.registrarVotante(10000, "Hola", 70, false, false);
+		sistema.registrarVotante(43858084, "Mariano", 20, false, false);
+		sistema.agregarMesa("Mayor65", 43858084);
+		sistema.asignarTurnos();
+		sistema.registrarVotante(43000000, "Pepe", 20, false, false);
+		System.out.println(sistema.toString());
+		
+		
 	}
 
 }

@@ -74,27 +74,36 @@ public class Votante {
 	@Override
 	public String toString() {
 		StringBuilder cadena = new StringBuilder();
-		cadena.append("DNI: ").append(consultarDni());
+		cadena.append("\nDNI: ").append(consultarDni());
 		if(consultarTurno() != null) {
 			Turno t = consultarTurno();
-
-			cadena.append(", Turno: (");
-			cadena.append("NumMesa: ").append(t.mostrarNumMesaTurno()).append(",");
-			cadena.append("Franja: ").append(t.mostrarFranjaTurno()).append(")");
-			
-			cadena.append(", Fue a votar: ");
+			cadena.append("\n");
+			cadena.append(t.toString());		
+			cadena.append(", \n\tFue a votar: ");
 			if(consultarSiFueAVotar()) {
-				cadena.append("Si | ");
+				cadena.append("Si\n");
 			} else {
-				cadena.append("No | ");
+				cadena.append("No\n");
 			}
 		} else {
-			cadena.append(", Turno: (").append(consultarTurno()).append(") | ");
+			cadena.append("\nTurno: Sin Turno\n");
 			
 		}
-		
 		return cadena.toString();
 	}
+	/*
+	 * toString creado para imprimir los datos de un presidente de
+	 * mesa al utilizar el toString de MesaGenerica
+	 */
 	
-	
+	public String toString(boolean esPresidenteMesa) {
+		if(esPresidenteMesa) {
+			StringBuilder cadena = new StringBuilder();
+			cadena.append(", \n\tPresidente de Mesa: (DNI: ");
+			cadena.append(dni);
+			cadena.append(" Nombre: ").append(nombre).append(")");
+			return cadena.toString();
+		}
+		return "";
+	}
 }

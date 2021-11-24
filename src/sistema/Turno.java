@@ -27,4 +27,16 @@ public class Turno {
     	return franja;
     }
 
+
+	@Override
+	public String toString() {
+		StringBuilder cadena = new StringBuilder();
+		cadena.append("Turno:");
+		cadena.append("\n\tNumero de mesa: ").append(numMesa);
+		cadena.append("\n\tFranja horaria: ").append(franja);
+
+		return cadena.toString();
+	}
+
+    
 }

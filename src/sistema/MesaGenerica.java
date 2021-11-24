@@ -142,12 +142,10 @@ public abstract class MesaGenerica {
 	@Override
 	public String toString() {
 		StringBuilder cadena = new StringBuilder();
-		cadena.append("Mesa: (Numero de Mesa: ");
+		cadena.append("\nMesa: \n\tNumero de Mesa: ");
 		cadena.append(numeroMesa);
-		cadena.append(", Tipo de Mesa: ").append(tipoMesa);
-		cadena.append(", Presidente de Mesa: (DNI: ");
-		cadena.append(presidenteMesa.consultarDni());
-		cadena.append(" Nombre: ").append(presidenteMesa.consultarNombre()).append(")");
+		cadena.append(", \n\tTipo de Mesa: ").append(tipoMesa);
+		cadena.append(presidenteMesa.toString(true));
 		return cadena.toString();
 	}
 
