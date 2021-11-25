@@ -68,7 +68,7 @@ public class MesaMayor65 extends MesaGenerica {
 	public FranjaHoraria franjaConDisponibilidad() {
 		
 		for(FranjaHoraria f : franjasHorarias) {
-			if(f.consultarTurnosRestantes() != 0) {
+			if(f.consultarTurnosRestantes() > 0) {
 				return f;
 			}
 		}

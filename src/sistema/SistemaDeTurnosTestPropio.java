@@ -55,8 +55,8 @@ public class SistemaDeTurnosTestPropio {
 	 */
 	@Test
 	public void asignacionTurno1(){
-		sistema.asignarTurnos();
-		sistema.asignarTurnos(F.dniDolores);
+		sistema.asignarTurno();
+		sistema.asignarTurno(F.dniDolores);
 		int votantesAsignados = sistema.mostrarTurnosVotantes().size();
 		assertEquals(0,votantesAsignados);
 	}
@@ -72,8 +72,8 @@ public class SistemaDeTurnosTestPropio {
 		sistema.agregarMesa(F.trabajador, F.dniAmanda);
 		sistema.agregarMesa(F.general, F.dniJuan);
 		
-		sistema.asignarTurnos(F.dniDolores);
-		sistema.asignarTurnos(F.dniRaul);
+		sistema.asignarTurno(F.dniDolores);
+		sistema.asignarTurno(F.dniRaul);
 		
 		// Se restan  los turnos de los presidente de mesa, que son 2
 		int votantesAsignados = sistema.mostrarTurnosVotantes().size() - 2;

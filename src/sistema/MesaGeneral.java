@@ -69,7 +69,7 @@ public class MesaGeneral extends MesaGenerica {
 	public FranjaHoraria franjaConDisponibilidad() {
 		// TODO Auto-generated method stub
 		for(FranjaHoraria f : franjasHorarias) {
-			if(f.consultarTurnosRestantes() != 0) {
+			if(f.consultarTurnosRestantes() > 0) {
 				return f;
 			}
 		}

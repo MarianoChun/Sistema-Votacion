@@ -160,7 +160,7 @@ public class SistemaDeTurnosTest {
 		
 		sistema.agregarMesa(F.trabajador, F.dniGandalf);
 		
-		assertEquals(votantesEsperados, sistema.asignarTurnos());
+		assertEquals(votantesEsperados, sistema.asignarTurno());
 	}
 	
 	/*
@@ -174,7 +174,7 @@ public class SistemaDeTurnosTest {
 		final Integer numMesaTrabajadores = sistema.
 				agregarMesa(F.trabajador, F.dniBilbo);
 		
-		sistema.asignarTurnos();
+		sistema.asignarTurno();
 		
 		//Franja -> List<Dni>
 		final Map<Integer, List<Integer>> franjaHoraria = sistema.asignadosAMesa(numMesaTrabajadores);
@@ -199,7 +199,7 @@ public class SistemaDeTurnosTest {
 		sistema.agregarMesa(F.enfPreexistente, F.dniEowyn);
 		sistema.agregarMesa(F.mayor65, F.dniBilbo);
 		
-		sistema.asignarTurnos();
+		sistema.asignarTurno();
 		
 		// List<Tupla<TipoMesa, Cant Votantes Sin Turno>>
 		final List<Tupla<String, Integer>> votantesSinTurno = sistema.sinTurnoSegunTipoMesa();
@@ -220,7 +220,7 @@ public class SistemaDeTurnosTest {
 		sistema.agregarMesa(F.general, F.dniGaladriel);
 		
 		// <NumeroMesa, FranjaHoraria>
-		final Tupla<Integer, Integer> turno = sistema.asignarTurnos(F.dniFrodo);
+		final Tupla<Integer, Integer> turno = sistema.asignarTurno(F.dniFrodo);
 		// <NumeroMesa, FranjaHoraria>
 		final Tupla<Integer, Integer> turnoAsignado = sistema.consultaTurno(F.dniFrodo);
 		
@@ -236,7 +236,7 @@ public class SistemaDeTurnosTest {
 	public void asignarTurnoDniInvalidoTest() {
 		sistema.agregarMesa(F.general, F.dniGaladriel);
 		try {
-			sistema.asignarTurnos(F.dniSinRegistrar);
+			sistema.asignarTurno(F.dniSinRegistrar);
 			//Si llego hasta aca esta mal! deberia haber fallado
 			assertTrue(false);
 		}catch(Exception e) {
@@ -250,7 +250,7 @@ public class SistemaDeTurnosTest {
 	 */
 	@Test
 	public void asignarTurnoInvalidoTest() {
-		assertNull(sistema.asignarTurnos(F.dniFrodo));
+		assertNull(sistema.asignarTurno(F.dniFrodo));
 	}
 	
 	/*
@@ -261,7 +261,7 @@ public class SistemaDeTurnosTest {
 	public void votarTest() {
 		sistema.agregarMesa(F.general, F.dniGaladriel);
 		
-		sistema.asignarTurnos(F.dniFrodo);
+		sistema.asignarTurno(F.dniFrodo);
 		//Pudo votar
 		Boolean voto = sistema.votar(F.dniFrodo);
 		assertTrue(voto);
@@ -294,7 +294,7 @@ public class SistemaDeTurnosTest {
 					, !F.trabaja);
 		}
 		
-		sistema.asignarTurnos();
+		sistema.asignarTurno();
 		
 		// FranjaHoraria -> List<Dni>
 		final Map<Integer,List<Integer>> asignadosXFranjaHoraria = 

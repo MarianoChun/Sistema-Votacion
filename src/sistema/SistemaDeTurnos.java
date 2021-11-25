@@ -72,7 +72,7 @@ public class SistemaDeTurnos {
     	return mesaNueva;
     }
     
-	public Tupla<Integer, Integer> asignarTurnos(int dni) {
+	public Tupla<Integer, Integer> asignarTurno(int dni) {
 		if (!estaVotanteEnSistema(dni)) {
 			throw new RuntimeException("El votante no esta registrado");
 		}
@@ -100,7 +100,7 @@ public class SistemaDeTurnos {
 				turno.mostrarFranjaTurno());
 	}
 
-	public int asignarTurnos() {
+	public int asignarTurno() {
 		int cantidadTurnosAsignados = 0;
 		Turno turno;
 		for (Votante v : votantesRegistrados.values()) {
@@ -339,7 +339,7 @@ public class SistemaDeTurnos {
 		sistema.registrarVotante(10000, "Hola", 70, false, false);
 		sistema.registrarVotante(43858084, "Mariano", 20, false, false);
 		sistema.agregarMesa("Mayor65", 43858084);
-		sistema.asignarTurnos();
+		sistema.asignarTurno();
 		sistema.registrarVotante(43000000, "Pepe", 20, false, false);
 		System.out.println(sistema.toString());
 		

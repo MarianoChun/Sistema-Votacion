@@ -101,7 +101,7 @@ public class Cliente {
 		sistema.registrarVotante(4, "Nombre4", 30, false, true);
 			
 		
-		sistema.asignarTurnos();
+		sistema.asignarTurno();
 		
 
 		// List<Tupla<TipoMesa, Cant Votantes Sin Turno>>
