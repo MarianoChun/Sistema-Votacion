@@ -88,6 +88,14 @@ public class MesaEnfPreex extends MesaGenerica {
 		}
 		return cantVotantes;
 	}
+	@Override
+	public boolean validarVotante(Votante votante) {
+		if(votante.consultarEsTrabajador()) {
+			return false;
+		}
+
+		return votante.consultarTieneEnfPreex() || (votante.consultarEsMayor() && votante.consultarTieneEnfPreex());
+	}
     
     
     

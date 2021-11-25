@@ -115,10 +115,15 @@ public class SistemaDeTurnos {
 		}
 		return cantidadTurnosAsignados;
 	}
+	// Mesa. -> metodo de mesa
+	//esMesaValida --> metodo de mesa
+	// toda la asignacion a la mesa
 	private Turno asignarVotanteAMesa(Votante votante, MesaGenerica mesa) {
-		if (esMesaValida(votante, mesa)) {
+		if (mesa.esMesaValida(votante)) {
 			// Obtengo la primera franja con disponibilidad
 			FranjaHoraria franjaDisponible = mesa.franjaConDisponibilidad();
+			
+			// Falta verificar si la franja no tiene disponibilidad
 			// Creo el turno y se lo asigno al votante
 			votante.crearTurno(mesa, franjaDisponible);
 			// Asigno al votante a la franja
@@ -130,36 +135,7 @@ public class SistemaDeTurnos {
 		return null;
 
 	}
-	
-    // Determina si la mesa es valida para el votante
-    private boolean esMesaValida(Votante votante, MesaGenerica mesa) {
-    	if(mesa.turnosRestantesTodasLasFranjas() > 0) {
-    		String tipoMesa = mesa.consultarTipoMesa();
-    		// Si pude asignar el turno, lo devuelvo, sino devuelvo null
-        	if (votante.consultarEsTrabajador()) {
-        		if(tipoMesa.equals("Trabajador")) {
-        			return true;
-        		}
-    		} else if(votante.consultarEsMayor() && !votante.consultarTieneEnfPreex()) {
-    			if(tipoMesa.equals("Mayor65")) {
-    				return true;
-    			}
-    		} else if(!votante.consultarEsMayor() && votante.consultarTieneEnfPreex()) {
-    			if(tipoMesa.equals("Enf_Preex")) {
-    				return true;
-    			}
-    		} else if (votante.consultarEsMayor() && votante.consultarTieneEnfPreex()) { 
-    			if ((tipoMesa.equals("Mayor65") || tipoMesa.equals("Enf_Preex"))) {
-    				return true;
-    			}
-    		} else {
-    			if (tipoMesa.equals("General")) {
-    				return true;
-    			}
-    		}        	
-    	}
-    	return false;
-    }
+
 	public boolean esTipoMesaValida(String tipoMesa) {
 		return tipoMesa.equals("Mayor65") || tipoMesa.equals("General") 
 				|| tipoMesa.equals("Enf_Preex") || tipoMesa.equals("Trabajador");
@@ -177,10 +153,6 @@ public class SistemaDeTurnos {
 	}
 
 	public Tupla<Integer, Integer> consultaTurno(int dni) {
-		if (!estaVotanteEnSistema(dni)) {
-			throw new RuntimeException("El votante no esta registrado");
-		}
-
 		Votante vot = obtenerVotante(dni);
 
 		if (vot.tieneTurno()) {

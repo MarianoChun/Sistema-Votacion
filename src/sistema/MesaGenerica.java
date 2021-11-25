@@ -40,12 +40,27 @@ public abstract class MesaGenerica {
         // TODO implement here
         return numeroMesa;
     }
-
+  
     public Votante consultarPresidenteMesa() {
     	return presidenteMesa;
     }
    
-
+    public abstract boolean validarVotante(Votante votante);
+    
+	// Mesa.validarVotante -> metodo de mesa
+	// Modificar de tal forma de aprovechar polimorfismo, cada mesa debe saber si el votante que le ingreso es valido
+    // Determina si la mesa es valida para el votante
+    public boolean esMesaValida(Votante votante) {
+    	if(turnosRestantesTodasLasFranjas() > 0) {
+    		//String tipoMesa = consultarTipoMesa();
+    		// Si pude asignar el turno, lo devuelvo, sino devuelvo null
+    		if(validarVotante(votante)) {
+    			return true;
+    		}  	
+    	}
+    	
+    	return false;
+    }
 	@Override
 	public String toString() {
 		StringBuilder cadena = new StringBuilder();

@@ -92,4 +92,13 @@ public class MesaMayor65 extends MesaGenerica {
 		return cantVotantes;
 	}
 
+	@Override
+	public boolean validarVotante(Votante votante) {
+		if(votante.consultarEsTrabajador()) {
+			return false;
+		}
+
+		return votante.consultarEsMayor() || (votante.consultarEsMayor() && votante.consultarTieneEnfPreex());
+	}
+
 }

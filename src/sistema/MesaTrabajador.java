@@ -64,4 +64,9 @@ public class MesaTrabajador extends MesaGenerica {
 	public int cantTotalVotantesMesa() {
 		return franjaHoraria.cantTotalVotantesFranja();
 	}
+
+	@Override
+	public boolean validarVotante(Votante votante) {
+		return votante.consultarEsTrabajador();
+	}
 }
