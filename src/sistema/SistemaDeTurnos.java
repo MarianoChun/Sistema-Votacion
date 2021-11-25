@@ -24,7 +24,7 @@ public class SistemaDeTurnos {
 	}
 
 	public void registrarVotante(int dni, String nombre, int edad, boolean tieneEnfPreex, boolean esTrabajador) {
-		if (verificarVotanteEnSistema(dni)) {
+		if (estaVotanteEnSistema(dni)) {
 			throw new RuntimeException("El votante ya esta registrado");
 		}
 		
@@ -38,7 +38,7 @@ public class SistemaDeTurnos {
 	}
 	
 	public int agregarMesa(String tipoMesa, int dni) {
-		if (!verificarVotanteEnSistema(dni)) {
+		if (!estaVotanteEnSistema(dni)) {
 			throw new RuntimeException("El presidente de mesa no esta registrado");
 		}
 
@@ -53,7 +53,7 @@ public class SistemaDeTurnos {
 	}
 
     // Si la mesa es valida, la crea asignandole su presidente de mesa y la devuelve
-    public MesaGenerica crearMesa(String tipoMesa, Votante presidenteMesa) {
+    private MesaGenerica crearMesa(String tipoMesa, Votante presidenteMesa) {
     	if(presidenteMesa == null) {
     		throw new RuntimeException("El presidente de mesa no es valido");
     	}
@@ -73,7 +73,7 @@ public class SistemaDeTurnos {
     }
     
 	public Tupla<Integer, Integer> asignarTurnos(int dni) {
-		if (!verificarVotanteEnSistema(dni)) {
+		if (!estaVotanteEnSistema(dni)) {
 			throw new RuntimeException("El votante no esta registrado");
 		}
 		Votante v = obtenerVotante(dni);
@@ -86,7 +86,7 @@ public class SistemaDeTurnos {
 		Turno turno = null;
 		
 		for (MesaGenerica mesa : mesas) {
-			turno = asignaVotanteAMesa(v, mesa);
+			turno = asignarVotanteAMesa(v, mesa);
 			if(turno != null) {
 				break;
 			}
@@ -106,7 +106,7 @@ public class SistemaDeTurnos {
 		for (Votante v : votantesRegistrados.values()) {
 			if (!v.tieneTurno()) { // Si no tiene turno, le asigno uno
 				for (MesaGenerica mesa : mesas) {
-					turno = asignaVotanteAMesa(v, mesa);
+					turno = asignarVotanteAMesa(v, mesa);
 					if(turno != null) {
 						cantidadTurnosAsignados++;
 						break;
@@ -116,7 +116,7 @@ public class SistemaDeTurnos {
 		}
 		return cantidadTurnosAsignados;
 	}
-	public Turno asignaVotanteAMesa(Votante votante, MesaGenerica mesa) {
+	private Turno asignarVotanteAMesa(Votante votante, MesaGenerica mesa) {
 		if (esMesaValida(votante, mesa)) {
 			// Obtengo la primera franja con disponibilidad
 			FranjaHoraria franjaDisponible = mesa.franjaConDisponibilidad();
@@ -133,7 +133,7 @@ public class SistemaDeTurnos {
 	}
 	
     // Determina si la mesa es valida para el votante
-    public boolean esMesaValida(Votante votante, MesaGenerica mesa) {
+    private boolean esMesaValida(Votante votante, MesaGenerica mesa) {
     	if(mesa.consultarTurnosTotalesFranjas() > 0) {
     		String tipoMesa = mesa.consultarTipoMesa();
     		// Si pude asignar el turno, lo devuelvo, sino devuelvo null
@@ -162,7 +162,7 @@ public class SistemaDeTurnos {
     	return false;
     }
     public int cantVotantesConTurnoDeTipoMesa(String tipoMesa, MesaGenerica mesa) {  	 
-		if (!tipoMesaValida(tipoMesa)) {
+		if (!esTipoMesaValida(tipoMesa)) {
 			throw new RuntimeException("Tipo de mesa invalida");
 		}
     	int votantesConTurno = 0;
@@ -173,17 +173,18 @@ public class SistemaDeTurnos {
 		
 		return votantesConTurno;
     }
-	public boolean tipoMesaValida(String tipoMesa) {
+
+	public boolean esTipoMesaValida(String tipoMesa) {
 		return tipoMesa.equals("Mayor65") || tipoMesa.equals("General") 
 				|| tipoMesa.equals("Enf_Preex") || tipoMesa.equals("Trabajador");
 			
 	}
-	public boolean verificarVotanteEnSistema(int dni) {
+	public boolean estaVotanteEnSistema(int dni) {
 		return votantesRegistrados.containsKey(dni);
 	}
 
 	public Votante obtenerVotante(int dni) {
-		if(!verificarVotanteEnSistema(dni)) {
+		if(!estaVotanteEnSistema(dni)) {
 			throw new RuntimeException("El votante no se encuentra registrado");
 		}	
 		return votantesRegistrados.get(dni);
@@ -199,7 +200,7 @@ public class SistemaDeTurnos {
 	}
 
 	public Tupla<Integer, Integer> consultaTurno(int dni) {
-		if (!verificarVotanteEnSistema(dni)) {
+		if (!estaVotanteEnSistema(dni)) {
 			throw new RuntimeException("El votante no esta registrado");
 		}
 
@@ -214,7 +215,7 @@ public class SistemaDeTurnos {
 	}
 
 	public boolean sePresentoVotar(int dni) {
-		if (!verificarVotanteEnSistema(dni)) {
+		if (!estaVotanteEnSistema(dni)) {
 			throw new RuntimeException("El votante no esta registrado");
 		}
 
@@ -246,7 +247,7 @@ public class SistemaDeTurnos {
 		return false;
 	}
 
-	public MesaGenerica buscarMesa(int numMesa) {
+	private MesaGenerica buscarMesa(int numMesa) {
 		for (MesaGenerica mesa : mesas) {
 			if (mesa.mostrarNumeroMesa() == numMesa) {
 				return mesa;
