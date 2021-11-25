@@ -33,6 +33,7 @@ public class MesaEnfPreex extends MesaGenerica {
     	}
     	franjasHorarias.add(franjaHoraria);
     }
+    
     @Override
     public void asignarVotanteAFranjaHoraria(int franja, Votante votante) {
     	
@@ -69,7 +70,7 @@ public class MesaEnfPreex extends MesaGenerica {
 	}
 
 	@Override
-	public Map<Integer, List<Integer>> votantesTodasLasFranjas() {
+	public Map<Integer, List<Integer>> votantesDeFranjas() {
 		
 		Map<Integer, List<Integer>> hashVotantes = new HashMap<Integer, List<Integer>>();
 		
@@ -79,7 +80,14 @@ public class MesaEnfPreex extends MesaGenerica {
 		return hashVotantes;
 	}
     
-    
+	@Override
+	public int cantTotalVotantesMesa() {
+		int cantVotantes = 0;
+		for(FranjaHoraria f : franjasHorarias) {
+			cantVotantes += f.cantTotalVotantesFranja();
+		}
+		return cantVotantes;
+	}
     
     
     

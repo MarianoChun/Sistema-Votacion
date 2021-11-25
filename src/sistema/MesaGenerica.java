@@ -25,6 +25,8 @@ public abstract class MesaGenerica {
     }
     public abstract void asignarVotanteAFranjaHoraria(int franja, Votante votante);
 
+    public abstract int cantTotalVotantesMesa();
+    
     public abstract int consultarTurnosTotalesFranjas();
 
     public  String consultarTipoMesa() {
@@ -32,7 +34,7 @@ public abstract class MesaGenerica {
     }
     public abstract FranjaHoraria franjaConDisponibilidad();
 
-    public abstract Map<Integer, List<Integer>> votantesTodasLasFranjas();
+    public abstract Map<Integer, List<Integer>> votantesDeFranjas();
     
     public int mostrarNumeroMesa() {
         // TODO implement here

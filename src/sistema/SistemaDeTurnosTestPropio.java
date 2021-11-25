@@ -27,6 +27,8 @@ public class SistemaDeTurnosTestPropio {
 			// EnfPrexistente = 3
 			// General = 2
 	}
+	
+	
 	/*
 	 * Al crear varias mesas, cada una deberia tener un numero de
 	 * mesa distinto, arrancando de 1 e incrementandose
@@ -79,5 +81,25 @@ public class SistemaDeTurnosTestPropio {
 		int votantesAsignados = sistema.mostrarTurnosVotantes().size() - 2;
 		assertEquals(0,votantesAsignados);
 	}
+	/*
+	 * Se presentara el caso en que se quiera agregar votantes de mas
+	 * a una mesa. Se probara si la mesa puede evitar agregar votantes
+	 * cuando sus franjas esten llenas
+	 */
+	@Test
+	public void asignacionTurno3(){
+		// La mesa de mayores65 tiene un cupo de 10 por franja horaria
+		// Son 10 franjas horarias
+		// 10 * 10 = 100 turnos asignables, se intentara asignar +120 (contando algunos del setUp())
+		int numMesa = sistema.agregarMesa(F.mayor65, F.dniDolores);
+		// Todos votantes +65
+		for(int i = 0; i < 120;i++) {
+			sistema.registrarVotante(i, "Juan Perez", 80, false, false);
+		}
+		
+		sistema.asignarTurno();
+		MesaGenerica mesa = sistema.buscarMesa(numMesa);
 
+		assertEquals(100,mesa.cantTotalVotantesMesa());
+	}
 }

@@ -211,7 +211,7 @@ public class SistemaDeTurnos {
 		return buscarMesa(numMesa) != null;
 	}
 
-	private MesaGenerica buscarMesa(int numMesa) {
+	public MesaGenerica buscarMesa(int numMesa) {
 		for (MesaGenerica mesa : mesas) {
 			if (mesa.mostrarNumeroMesa() == numMesa) {
 				return mesa;
@@ -226,7 +226,7 @@ public class SistemaDeTurnos {
 		}
 
 		MesaGenerica mesa = buscarMesa(numMesa);
-		return mesa.votantesTodasLasFranjas();
+		return mesa.votantesDeFranjas();
 	}
 
 	public List<Tupla<String, Integer>> sinTurnoSegunTipoMesa() {

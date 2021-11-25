@@ -72,7 +72,7 @@ public class MesaGeneral extends MesaGenerica {
 	}
 
 	@Override
-	public Map<Integer, List<Integer>> votantesTodasLasFranjas() {
+	public Map<Integer, List<Integer>> votantesDeFranjas() {
 		// TODO Auto-generated method stub
 		Map<Integer, List<Integer>> hashVotantes = new HashMap<Integer, List<Integer>>();
 		
@@ -82,6 +82,14 @@ public class MesaGeneral extends MesaGenerica {
 		return hashVotantes;
 	}
     
+	@Override
+	public int cantTotalVotantesMesa() {
+		int cantVotantes = 0;
+		for(FranjaHoraria f : franjasHorarias) {
+			cantVotantes += f.cantTotalVotantesFranja();
+		}
+		return cantVotantes;
+	}
     
     
     

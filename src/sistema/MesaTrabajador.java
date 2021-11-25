@@ -51,7 +51,7 @@ public class MesaTrabajador extends MesaGenerica {
 	}
 
 	@Override
-	public Map<Integer, List<Integer>> votantesTodasLasFranjas() {
+	public Map<Integer, List<Integer>> votantesDeFranjas() {
 		// TODO Auto-generated method stub
 		
 		Map<Integer, List<Integer>> hashVotantes = new HashMap<Integer, List<Integer>>();
@@ -59,5 +59,9 @@ public class MesaTrabajador extends MesaGenerica {
 		
 		return hashVotantes;
 	}
-
+	
+	@Override
+	public int cantTotalVotantesMesa() {
+		return franjaHoraria.cantTotalVotantesFranja();
+	}
 }

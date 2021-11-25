@@ -32,6 +32,9 @@ public class FranjaHoraria {
 		return cadena.toString();
 	}
 
+    public int cantTotalVotantesFranja() {
+    	return votantes.size();
+    }
 
 	public int consultarTurnosRestantes() {
         // TODO implement here
