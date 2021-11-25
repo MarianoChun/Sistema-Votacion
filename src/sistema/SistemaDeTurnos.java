@@ -189,15 +189,6 @@ public class SistemaDeTurnos {
 		}	
 		return votantesRegistrados.get(dni);
 	}
-	
-	public int consultarCantTurnosDisponibles(int numMesa) {
-		if(!verificarMesaEnSistema(numMesa)) {
-			throw new RuntimeException("La mesa no existe en el registro de mesas");
-		}
-		
-		return buscarMesa(numMesa).consultarTurnosTotalesFranjas();
-
-	}
 
 	public Tupla<Integer, Integer> consultaTurno(int dni) {
 		if (!estaVotanteEnSistema(dni)) {
