@@ -51,94 +51,11 @@ public abstract class MesaGenerica {
         return numeroMesa;
     }
 
-    public int mostrarDniPresidenteMesa() {
-        // TODO implement here
-        return presidenteMesa.consultarDni();
+    public Votante consultarPresidenteMesa() {
+    	return presidenteMesa;
     }
+   
 
-    public String mostrarNombrePresidenteMesa() {
-        // TODO implement here
-        return presidenteMesa.consultarNombre();
-    }
-
-    // Si la mesa es valida, la crea asignandole su presidente de mesa y la devuelve
-    public static MesaGenerica validarMesaSegunTipo(String tipoMesa, Votante presidenteMesa) {
-    	if(presidenteMesa == null) {
-    		throw new RuntimeException("El presidente de mesa no es valido");
-    	}
-    		
-    	MesaGenerica mesaNueva;  	
-    	if (tipoMesa.equals("Trabajador")) {
-			mesaNueva = new MesaTrabajador(presidenteMesa);
-		} else if (tipoMesa.equals("Mayor65")) {
-			mesaNueva = new MesaMayor65(presidenteMesa);
-		} else if (tipoMesa.equals("Enf_Preex")) {
-			mesaNueva = new MesaEnfPreex(presidenteMesa);
-		} else if (tipoMesa.equals("General")) {
-			mesaNueva = new MesaGeneral(presidenteMesa);
-		} else {
-			throw new RuntimeException("Tipo de mesa invalida");
-		}
-    	
-    	return mesaNueva;
-
-    }
-    
-    public static int cantVotantesConTurnoDeTipoMesa(String tipoMesa, MesaGenerica mesa) {
-    	 
-		if (!tipoMesa.equals("Mayor65") || !tipoMesa.equals("General") || !tipoMesa.equals("Enf_Preex")
-				|| !tipoMesa.equals("Trabajador")) {
-			throw new RuntimeException("Tipo de mesa invalida");
-		}
-    	int votantesConTurno = 0;
-    	// Si el tipo de mesa coincide con el pasado por parametro, devuelvo su cant de votantes
-		if (mesa.consultarTipoMesa().equals(tipoMesa)) {
-			votantesConTurno += mesa.votantesTodasLasFranjas().size();
-		}
-		
-		return votantesConTurno;
-    }
-     
-    public static Turno asignaVotanteAMesa(Votante votante, MesaGenerica mesa){
-    	boolean mesaDisponible = false;
-    	// Si pude asignar el turno, lo devuelvo, sino devuelvo null
-    	if (votante.consultarEsTrabajador()) {
-    		if(mesa.consultarTipoMesa().equals("Trabajador") && mesa.consultarTurnosTotalesFranjas() > 0) {
-    			mesaDisponible = true;
-    		}
-		} else if(votante.consultarEsMayor() && !votante.consultarTieneEnfPreex()) {
-			if(mesa.consultarTipoMesa().equals("Mayor65") && mesa.consultarTurnosTotalesFranjas() > 0) {
-				mesaDisponible = true;
-			}
-		} else if(!votante.consultarEsMayor() && votante.consultarTieneEnfPreex()) {
-			if(mesa.consultarTipoMesa().equals("Enf_Preex") && mesa.consultarTurnosTotalesFranjas() > 0) {
-				mesaDisponible = true;
-			}
-		} else if (votante.consultarEsMayor() && votante.consultarTieneEnfPreex()) { 
-			if ((mesa.consultarTipoMesa().equals("Mayor65") || mesa.consultarTipoMesa().equals("Enf_Preex"))
-				&& mesa.consultarTurnosTotalesFranjas() > 0) {
-				mesaDisponible = true;
-			}
-		} else {
-			if (mesa.consultarTipoMesa().equals("General") && mesa.consultarTurnosTotalesFranjas() > 0) {
-				mesaDisponible = true;
-			}
-		}
-    	
-    	if(mesaDisponible) {
-    		// Obtengo la primera franja con disponibilidad
-			FranjaHoraria franjaDisponible = mesa.franjaConDisponibilidad();
-			// Creo el turno y se lo asigno al votante
-			votante.crearTurno(mesa, franjaDisponible);
-			// Lo asigno a la franja
-			mesa.asignarVotanteAFranjaHoraria(franjaDisponible.consultarFranja(), votante);
-			// Devuelvo el turno
-			return votante.consultarTurno();
-    	}
-    	
-    	return null;	
-
-    }
 	@Override
 	public String toString() {
 		StringBuilder cadena = new StringBuilder();
@@ -167,15 +84,11 @@ public abstract class MesaGenerica {
 			return false;
 		if (obj.getClass() != this.getClass())
 			return false;
-		
-		MesaGenerica otraMesa = (MesaGenerica) obj;
-		
-		if(this.mostrarNumeroMesa() != otraMesa.mostrarNumeroMesa()) {
+		if(!(obj instanceof MesaGenerica)) {
 			return false;
-		} else {
-			return true;
 		}
-		
+		MesaGenerica otraMesa = (MesaGenerica) obj;		
+		return this.mostrarNumeroMesa() != otraMesa.mostrarNumeroMesa();
 	}
 	
 	

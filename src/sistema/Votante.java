@@ -63,6 +63,9 @@ public class Votante {
 		return turno;
 	}
 	
+	public boolean tieneTurno() {
+		return turno != null;
+	}
 	public void crearTurno(MesaGenerica mesa,FranjaHoraria franjaHoraria) {
 		if (turno != null) {
 			throw new RuntimeException("No se puede asignar un turno si ya hay uno asignado");
