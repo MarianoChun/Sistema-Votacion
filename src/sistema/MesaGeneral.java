@@ -50,12 +50,6 @@ public class MesaGeneral extends MesaGenerica {
     }
 
 	@Override
-	public int consultarCupo() {
-		// TODO Auto-generated method stub
-		return cupo;
-	}
-
-	@Override
 	public int consultarTurnosTotalesFranjas() {
 		// TODO Auto-generated method stub
 		int turnosTotales = 0;

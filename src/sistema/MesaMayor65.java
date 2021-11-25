@@ -58,11 +58,6 @@ public class MesaMayor65 extends MesaGenerica {
 		return turnosTotales;
 	}
 
-	@Override
-	public int consultarCupo() {
-		// TODO Auto-generated method stub
-		return cupo;
-	}
 
 	@Override
 	public FranjaHoraria franjaConDisponibilidad() {

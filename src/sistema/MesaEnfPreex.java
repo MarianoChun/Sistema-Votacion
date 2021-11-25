@@ -57,12 +57,6 @@ public class MesaEnfPreex extends MesaGenerica {
 	}
 
 	@Override
-	public int consultarCupo() {
-		// TODO Auto-generated method stub
-		return cupo;
-	}
-
-	@Override
 	public FranjaHoraria franjaConDisponibilidad() {
 		
 		for(FranjaHoraria f : franjasHorarias) {

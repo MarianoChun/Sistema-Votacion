@@ -84,7 +84,6 @@ public class SistemaDeTurnos {
 		}
 		// Si no tiene turno, le asigno uno disponible
 		Turno turno = null;
-		
 		for (MesaGenerica mesa : mesas) {
 			turno = asignarVotanteAMesa(v, mesa);
 			if(turno != null) {
@@ -122,7 +121,7 @@ public class SistemaDeTurnos {
 			FranjaHoraria franjaDisponible = mesa.franjaConDisponibilidad();
 			// Creo el turno y se lo asigno al votante
 			votante.crearTurno(mesa, franjaDisponible);
-			// Lo asigno a la franja
+			// Asigno al votante a la franja
 			mesa.asignarVotanteAFranjaHoraria(franjaDisponible.consultarFranja(), votante);
 			// Devuelvo el turno
 			return votante.consultarTurno();
@@ -161,19 +160,6 @@ public class SistemaDeTurnos {
     	}
     	return false;
     }
-    public int cantVotantesConTurnoDeTipoMesa(String tipoMesa, MesaGenerica mesa) {  	 
-		if (!esTipoMesaValida(tipoMesa)) {
-			throw new RuntimeException("Tipo de mesa invalida");
-		}
-    	int votantesConTurno = 0;
-    	// Si el tipo de mesa coincide con el pasado por parametro, devuelvo su cant de votantes
-		if (mesa.consultarTipoMesa().equals(tipoMesa)) {
-			votantesConTurno += mesa.votantesTodasLasFranjas().size();
-		}
-		
-		return votantesConTurno;
-    }
-
 	public boolean esTipoMesaValida(String tipoMesa) {
 		return tipoMesa.equals("Mayor65") || tipoMesa.equals("General") 
 				|| tipoMesa.equals("Enf_Preex") || tipoMesa.equals("Trabajador");
@@ -221,21 +207,8 @@ public class SistemaDeTurnos {
 		return true;
 	}
 
-	public int votantesConTurno(String tipoMesa) {
-		int votantesConTurno = 0;
-		for (MesaGenerica mesa : mesas) {
-			votantesConTurno += cantVotantesConTurnoDeTipoMesa(tipoMesa, mesa);
-		}
-		return votantesConTurno;
-
-	}
-
-	public boolean verificarMesaEnSistema(int numMesa) {
-		if(buscarMesa(numMesa) != null) {
-			return true;
-		}
-		
-		return false;
+	public boolean estaMesaEnSistema(int numMesa) {
+		return buscarMesa(numMesa) != null;
 	}
 
 	private MesaGenerica buscarMesa(int numMesa) {
@@ -248,7 +221,7 @@ public class SistemaDeTurnos {
 	}
 
 	public Map<Integer, List<Integer>> asignadosAMesa(int numMesa) {
-		if (!verificarMesaEnSistema(numMesa)) {
+		if (!estaMesaEnSistema(numMesa)) {
 			throw new RuntimeException("El numero de mesa no es valido para ninguna mesa del sistema");
 		}
 
@@ -257,7 +230,6 @@ public class SistemaDeTurnos {
 	}
 
 	public List<Tupla<String, Integer>> sinTurnoSegunTipoMesa() {
-		// Posible IREP? ver que no nos ingresen una listaVotantes erronea
     	List<Tupla<String, Integer>> listaTiposMesa = new LinkedList<Tupla<String, Integer>>();
 
 		int contadorTrabajador = 0;

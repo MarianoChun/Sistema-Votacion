@@ -30,9 +30,6 @@ public abstract class MesaGenerica {
     public  String consultarTipoMesa() {
     	return tipoMesa;
     }
-
-    public abstract int consultarCupo();
-
     public abstract FranjaHoraria franjaConDisponibilidad();
 
     public abstract Map<Integer, List<Integer>> votantesTodasLasFranjas();

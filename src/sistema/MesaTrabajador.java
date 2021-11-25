@@ -43,12 +43,6 @@ public class MesaTrabajador extends MesaGenerica {
         // TODO implement here
         return franjaHoraria.consultarTurnosRestantes();
     }
-    
-    @Override
-    public int consultarCupo() {
-        // TODO implement here
-        return cupo;
-    }
 
 	@Override
 	public FranjaHoraria franjaConDisponibilidad() {
