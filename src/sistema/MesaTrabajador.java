@@ -25,28 +25,6 @@ public class MesaTrabajador extends MesaGenerica {
     }
 
     @Override
-    public int turnosRestantesFranjaHoraria(int franja) {
-        // TODO implement here
-    	
-    	if(franja < 8 || franja > 11) {
-    		throw new RuntimeException("Franja invalida");
-    	}
-    	
-        return franjaHoraria.consultarTurnosRestantes();
-    }
-    
-    @Override
-    public LinkedList<Votante> votantesFranjaHoraria(int franja) {
-        // TODO implement here
-    	
-    	if(franja < 8 || franja > 11) {
-    		throw new RuntimeException("Franja invalida");
-    	}
-    	
-        return franjaHoraria.mostrarVotantes();
-    }
-    
-    @Override
     public void asignarVotanteAFranjaHoraria(int franja, Votante votante) {
         // TODO implement here
     	
@@ -70,21 +48,6 @@ public class MesaTrabajador extends MesaGenerica {
     public int consultarCupo() {
         // TODO implement here
         return cupo;
-    }
-    
-    @Override
-    public ArrayList<FranjaHoraria> mostrarFranjasHorarias(){
-    	ArrayList<FranjaHoraria> franja = new ArrayList<FranjaHoraria>();
-    	franja.add(franjaHoraria);
-		return franja;
-    	
-    }
-    @Override
-    public FranjaHoraria mostrarFranjaHoraria(int franja){
-    	if(franja < 8 || franja > 11) {
-    		throw new RuntimeException("Franja invalida");
-    	} 
-		 return franjaHoraria;
     }
 
 	@Override

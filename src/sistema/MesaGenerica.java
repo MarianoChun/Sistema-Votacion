@@ -23,16 +23,7 @@ public abstract class MesaGenerica {
     	this.presidenteMesa = presidenteMesa;
     	this.tipoMesa = tipoMesa;
     }
-
-    public abstract ArrayList<FranjaHoraria> mostrarFranjasHorarias();
-
-    public abstract FranjaHoraria mostrarFranjaHoraria(int franja);
-
     public abstract void asignarVotanteAFranjaHoraria(int franja, Votante votante);
-
-    public abstract int turnosRestantesFranjaHoraria(int franja);
-
-    public abstract LinkedList<Votante> votantesFranjaHoraria(int franja);
 
     public abstract int consultarTurnosTotalesFranjas();
 

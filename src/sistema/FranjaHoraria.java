@@ -58,7 +58,8 @@ public class FranjaHoraria {
 
     public void agregarVotante(Votante votante) {
         // TODO implement here
-        if(!votanteEstaEnFranja(votante.consultarDni())) {
+        if(!votanteEstaEnFranja(votante.consultarDni())
+        		&& consultarTurnosRestantes() > 0) {
         	votantes.add(votante);
         	restarTurno();
         } else {

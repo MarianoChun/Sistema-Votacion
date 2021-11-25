@@ -48,65 +48,11 @@ public class MesaGeneral extends MesaGenerica {
     	}
         
     }
-    
-    @Override
-    public ArrayList<FranjaHoraria> mostrarFranjasHorarias(){
-		return franjasHorarias;
-    	
-    }
-    
-    @Override
-    public FranjaHoraria mostrarFranjaHoraria(int franja){
-    	if(franja < 8 || franja > 17) {
-    		throw new RuntimeException("Franja invalida");
-    	}
-    	
-    	FranjaHoraria franjaRetorno = null;
-    	for (FranjaHoraria f : franjasHorarias) {
-    		if (f.consultarFranja() == franja) {
-    			franjaRetorno = f;
-    		}
-    	}
-    	return franjaRetorno;
-    }
-    
-    @Override
-    public int turnosRestantesFranjaHoraria(int franja) {
-    	if(franja < 8 || franja > 17) {
-    		throw new RuntimeException("Franja invalida");
-    	}
-    	
-    	int turnosRestantes = 0;
-    	for (FranjaHoraria f : franjasHorarias) {
-    		if (f.consultarFranja() == franja) {
-    			turnosRestantes = f.consultarTurnosRestantes();
-    		}
-    	}
-    	
-    	return turnosRestantes;
-    }
 
 	@Override
 	public int consultarCupo() {
 		// TODO Auto-generated method stub
 		return cupo;
-	}
-
-	@Override
-	public LinkedList<Votante> votantesFranjaHoraria(int franja) {
-		
-		if(franja < 8 || franja > 17) {
-    		throw new RuntimeException("Franja invalida");
-    	}
-		
-		
-		for(FranjaHoraria f : franjasHorarias) {
-			if(f.consultarFranja() == franja) {
-				return f.mostrarVotantes();
-			}
-		}
-		
-		return null;
 	}
 
 	@Override
