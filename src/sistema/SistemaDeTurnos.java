@@ -254,7 +254,7 @@ public class SistemaDeTurnos {
 
 		// Recorro por valor el registro de votantes registrados
 		for (Votante v : votantesRegistrados.values()) {
-			if (v.consultarTurno() == null) {
+			if (!v.tieneTurno()) {
 				// Verifico a que tipo de mesa corresponde que sea asignado el votante
 				if (v.consultarEsTrabajador()) {
 					contadorTrabajador++;
@@ -285,8 +285,10 @@ public class SistemaDeTurnos {
 		for (Votante v : votantesRegistrados.values()) { // Recorro los votantes
 			if (v.tieneTurno()) { // Si tiene turno, lo agrego a la lista de tuplas. (DNI,<numMesa,Franja>)
 				Turno t = v.consultarTurno();
-				listaVotantesYTurnos.add(new Tupla<Integer, Tupla<Integer, Integer>>(v.consultarDni(),
-						new Tupla<Integer, Integer>(t.mostrarNumMesaTurno(), t.mostrarFranjaTurno())));
+				// Turno<numMesa,Franja>
+				Tupla<Integer, Integer> tuplaTurno = new Tupla<Integer, Integer>(t.mostrarNumMesaTurno(), t.mostrarFranjaTurno());
+				//(DNI,<numMesa,Franja>)
+				listaVotantesYTurnos.add(new Tupla<Integer, Tupla<Integer, Integer>>(v.consultarDni(),tuplaTurno));
 			}
 		}
 		return listaVotantesYTurnos;
