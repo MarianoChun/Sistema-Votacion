@@ -39,7 +39,7 @@ public class MesaTrabajador extends MesaGenerica {
     }
     
     @Override
-    public int consultarTurnosTotalesFranjas() {
+    public int turnosRestantesTodasLasFranjas() {
         // TODO implement here
         return franjaHoraria.consultarTurnosRestantes();
     }

@@ -49,7 +49,7 @@ public class MesaEnfPreex extends MesaGenerica {
     }
 
 	@Override
-	public int consultarTurnosTotalesFranjas() {
+	public int turnosRestantesTodasLasFranjas() {
 		int turnosTotales = 0;
 		for(FranjaHoraria f : franjasHorarias) {
 			turnosTotales += f.consultarTurnosRestantes();

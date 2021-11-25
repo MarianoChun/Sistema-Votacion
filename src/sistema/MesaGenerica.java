@@ -27,7 +27,7 @@ public abstract class MesaGenerica {
 
     public abstract int cantTotalVotantesMesa();
     
-    public abstract int consultarTurnosTotalesFranjas();
+    public abstract int turnosRestantesTodasLasFranjas();
 
     public  String consultarTipoMesa() {
     	return tipoMesa;

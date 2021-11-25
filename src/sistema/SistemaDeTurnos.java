@@ -133,7 +133,7 @@ public class SistemaDeTurnos {
 	
     // Determina si la mesa es valida para el votante
     private boolean esMesaValida(Votante votante, MesaGenerica mesa) {
-    	if(mesa.consultarTurnosTotalesFranjas() > 0) {
+    	if(mesa.turnosRestantesTodasLasFranjas() > 0) {
     		String tipoMesa = mesa.consultarTipoMesa();
     		// Si pude asignar el turno, lo devuelvo, sino devuelvo null
         	if (votante.consultarEsTrabajador()) {
@@ -207,11 +207,26 @@ public class SistemaDeTurnos {
 		return true;
 	}
 
+	public int votantesConTurno(String tipoMesa) {
+		if(!esTipoMesaValida(tipoMesa)) {
+			throw new RuntimeException("Tipo de mesa invalida");
+		}
+		
+		int votantesConTurno = 0;
+		for (MesaGenerica mesa : mesas) {
+			if(mesa.consultarTipoMesa().equals(tipoMesa)) {
+				votantesConTurno += mesa.cantTotalVotantesMesa();
+			}
+		}
+		return votantesConTurno;
+	}
+	
+	
 	public boolean estaMesaEnSistema(int numMesa) {
-		return buscarMesa(numMesa) != null;
+		return obtenerMesa(numMesa) != null;
 	}
 
-	public MesaGenerica buscarMesa(int numMesa) {
+	public MesaGenerica obtenerMesa(int numMesa) {
 		for (MesaGenerica mesa : mesas) {
 			if (mesa.mostrarNumeroMesa() == numMesa) {
 				return mesa;
@@ -225,7 +240,7 @@ public class SistemaDeTurnos {
 			throw new RuntimeException("El numero de mesa no es valido para ninguna mesa del sistema");
 		}
 
-		MesaGenerica mesa = buscarMesa(numMesa);
+		MesaGenerica mesa = obtenerMesa(numMesa);
 		return mesa.votantesDeFranjas();
 	}
 

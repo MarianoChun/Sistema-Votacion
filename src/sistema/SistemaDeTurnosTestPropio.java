@@ -98,7 +98,7 @@ public class SistemaDeTurnosTestPropio {
 		}
 		
 		sistema.asignarTurno();
-		MesaGenerica mesa = sistema.buscarMesa(numMesa);
+		MesaGenerica mesa = sistema.obtenerMesa(numMesa);
 
 		assertEquals(100,mesa.cantTotalVotantesMesa());
 	}

@@ -50,7 +50,7 @@ public class MesaGeneral extends MesaGenerica {
     }
 
 	@Override
-	public int consultarTurnosTotalesFranjas() {
+	public int turnosRestantesTodasLasFranjas() {
 		// TODO Auto-generated method stub
 		int turnosTotales = 0;
 		for(FranjaHoraria f : franjasHorarias) {

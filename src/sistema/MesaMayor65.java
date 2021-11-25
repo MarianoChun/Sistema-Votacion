@@ -49,7 +49,7 @@ public class MesaMayor65 extends MesaGenerica {
     }
 
 	@Override
-	public int consultarTurnosTotalesFranjas() {
+	public int turnosRestantesTodasLasFranjas() {
 
 		int turnosTotales = 0;
 		for(FranjaHoraria f : franjasHorarias) {
@@ -82,6 +82,7 @@ public class MesaMayor65 extends MesaGenerica {
 		return hashVotantes;
 	}
 
+	// Devuelve la cantidad de votantes asignados a la mesa
 	@Override
 	public int cantTotalVotantesMesa() {
 		int cantVotantes = 0;
