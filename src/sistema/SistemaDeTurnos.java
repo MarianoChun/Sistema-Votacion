@@ -85,7 +85,7 @@ public class SistemaDeTurnos {
 		// Si no tiene turno, le asigno uno disponible
 		Turno turno = null;
 		for (MesaGenerica mesa : mesas) {
-			turno = asignarVotanteAMesa(v, mesa);
+			turno = mesa.asignarVotanteAMesa(v);
 			if(turno != null) {
 				break;
 			}
@@ -105,7 +105,7 @@ public class SistemaDeTurnos {
 		for (Votante v : votantesRegistrados.values()) {
 			if (!v.tieneTurno()) { // Si no tiene turno, le asigno uno
 				for (MesaGenerica mesa : mesas) {
-					turno = asignarVotanteAMesa(v, mesa);
+					turno = mesa.asignarVotanteAMesa(v);
 					if(turno != null) {
 						cantidadTurnosAsignados++;
 						break;
@@ -115,27 +115,7 @@ public class SistemaDeTurnos {
 		}
 		return cantidadTurnosAsignados;
 	}
-	// Mesa. -> metodo de mesa
-	//esMesaValida --> metodo de mesa
-	// toda la asignacion a la mesa
-	private Turno asignarVotanteAMesa(Votante votante, MesaGenerica mesa) {
-		if (mesa.esMesaValida(votante)) {
-			// Obtengo la primera franja con disponibilidad
-			FranjaHoraria franjaDisponible = mesa.franjaConDisponibilidad();
-			
-			// Falta verificar si la franja no tiene disponibilidad
-			// Creo el turno y se lo asigno al votante
-			votante.crearTurno(mesa, franjaDisponible);
-			// Asigno al votante a la franja
-			mesa.asignarVotanteAFranjaHoraria(franjaDisponible.consultarFranja(), votante);
-			// Devuelvo el turno
-			return votante.consultarTurno();
-		}
-
-		return null;
-
-	}
-
+	
 	public boolean esTipoMesaValida(String tipoMesa) {
 		return tipoMesa.equals("Mayor65") || tipoMesa.equals("General") 
 				|| tipoMesa.equals("Enf_Preex") || tipoMesa.equals("Trabajador");

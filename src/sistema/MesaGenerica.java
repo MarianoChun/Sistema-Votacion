@@ -52,15 +52,37 @@ public abstract class MesaGenerica {
     // Determina si la mesa es valida para el votante
     public boolean esMesaValida(Votante votante) {
     	if(turnosRestantesTodasLasFranjas() > 0) {
-    		//String tipoMesa = consultarTipoMesa();
     		// Si pude asignar el turno, lo devuelvo, sino devuelvo null
     		if(validarVotante(votante)) {
     			return true;
     		}  	
     	}
-    	
     	return false;
     }
+    
+	// Mesa. -> metodo de mesa
+	//esMesaValida --> metodo de mesa
+	// toda la asignacion a la mesa
+	public Turno asignarVotanteAMesa(Votante votante) {
+		if (esMesaValida(votante)) {
+			// Obtengo la primera franja con disponibilidad
+			FranjaHoraria franjaDisponible = franjaConDisponibilidad();
+			// Verificacion por si no hay franja disponible.
+			if(franjaDisponible == null) {
+				return null;
+			}
+			// Creo el turno y se lo asigno al votante
+			votante.crearTurno(this, franjaDisponible);
+			// Asigno al votante a la franja
+			asignarVotanteAFranjaHoraria(franjaDisponible.consultarFranja(), votante);
+			// Devuelvo el turno
+			return votante.consultarTurno();
+			
+		}
+
+		return null;
+
+	}
 	@Override
 	public String toString() {
 		StringBuilder cadena = new StringBuilder();
