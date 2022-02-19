@@ -3,7 +3,7 @@ This project simulates the functioning of a Votation System, it's been thougth t
 It was developed to be the final work for my college subject "Programming II".
 ## Usage
 The system can be used from the "Cliente" class, calling the methods of the main class "SistemaDeTurnos" and using the voters data of the "Fixture" class. 
-# Features
+## Features
 The votation system has the following main functionalities:
 * Register voters
 * Add new voting points (voting desks)
@@ -15,6 +15,8 @@ The votation system has the following main functionalities:
 * Show the amount of voters without a turn according to it's condition[^1]
 * Inform if the voter already voted or not
 [^1]: The assignment of turns vary depending on the condition of the voter (Worker, people older than 65 years old, etc)
+## Project status
+At this moment i don't have intentions of updating/mantaining the code. Despite this, i may come back to it in a future.
 
 
 
