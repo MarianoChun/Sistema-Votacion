@@ -1,4 +1,4 @@
-# Sistema-Votacion-TP-P2
+# Voting System-TP-P2
 This project simulates the functioning of a Votation System, it's been thougth to do the administrative work related to an election in a polling place.
 It was developed to be the final work for my college subject "Programming II".
 ## Usage
